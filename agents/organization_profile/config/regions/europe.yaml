@@ -1,0 +1,71 @@
+# Europe Region Configuration
+
+region: "Europe"
+
+# Region-specific regulations by country
+regulations:
+  european_union:
+    - name: "GDPR"
+      description: "General Data Protection Regulation"
+      mandatory: true
+      
+    - name: "NIS2 Directive"
+      description: "Network and Information Security Directive"
+      mandatory: true
+      
+    - name: "DORA"
+      description: "Digital Operational Resilience Act"
+      mandatory: true
+      applicability: "Financial services"
+      
+  united_kingdom:
+    - name: "UK GDPR"
+      description: "UK General Data Protection Regulation"
+      mandatory: true
+      
+    - name: "Data Protection Act 2018"
+      description: "UK Data Protection Act"
+      mandatory: true
+      
+  germany:
+    - name: "BDSG"
+      description: "Federal Data Protection Act"
+      mandatory: true
+      
+    - name: "BSI IT-Grundschutz"
+      description: "BSI IT Security Standards"
+      mandatory: false
+      
+  france:
+    - name: "French Data Protection Act"
+      description: "Loi Informatique et Libertés"
+      mandatory: true
+
+# Region-specific questions
+additional_questions:
+  - field: "gdpr_compliance"
+    question: "What is your GDPR compliance status?"
+    options:
+      - "Fully Compliant"
+      - "In Progress"
+      - "Not Applicable"
+    
+  - field: "data_protection_officer"
+    question: "Do you have a designated Data Protection Officer (DPO)?"
+    
+  - field: "eu_data_transfers"
+    question: "Do you transfer personal data outside the EU/EEA?"
+    
+  - field: "schrems_ii_compliance"
+    question: "How do you comply with Schrems II requirements for international data transfers?"
+
+# MCP search queries for this region
+mcp_search_queries:
+  - query: "GDPR compliance requirements {industry}"
+    use_for: ["regulatory_compliance", "data_protection"]
+    
+  - query: "NIS2 Directive cybersecurity requirements"
+    use_for: ["regulatory_compliance", "security_controls"]
+    
+  - query: "EU data protection regulations {country}"
+    use_for: ["data_protection", "privacy"]

@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fsi_security_architecture_review>
+    <objective>
+        Conduct a comprehensive security assessment of the architecture document to evaluate security control effectiveness and identify gaps.
+    </objective>
+
+    <instructions>
+        <instruction order="1">
+            <title>Read Architecture Document</title>
+            <description>Analyze the provided architecture document thoroughly</description>
+        </instruction>
+        <instruction order="2">
+            <title>Determine Framework</title>
+            <description>Use the security compliance framework mentioned in security questionnaire responses. If no framework specified, default to NIST Cybersecurity Framework</description>
+        </instruction>
+        <instruction order="3">
+            <title>Assess Control Effectiveness</title>
+            <description>For each relevant security control, evaluate design effectiveness as:</description>
+            <effectiveness_levels>
+                <level>
+                    <name>Effective</name>
+                    <description>Control is properly designed and implemented</description>
+                </level>
+                <level>
+                    <name>Partially Effective</name>
+                    <description>Control exists but has gaps or weaknesses</description>
+                </level>
+                <level>
+                    <name>Missing</name>
+                    <description>Control is not present or inadequately addressed</description>
+                </level>
+            </effectiveness_levels>
+        </instruction>
+        <instruction order="4">
+            <title>Output Format</title>
+            <description>Generate assessment in comprehensive FSI risk format with risk scoring</description>
+        </instruction>
+        <instruction order="5">
+            <title>MANDATORY SAVE</title>
+            <description>IMMEDIATELY call save_security_assessment_results() after completing assessment</description>
+        </instruction>
+    </instructions>
+
+    <architecture_document>
+        <placeholder>{document_content}</placeholder>
+    </architecture_document>
+
+    <assessment_template>
+        <title>🚨 COMPREHENSIVE FSI SECURITY RISK ASSESSMENT</title>
+
+        <executive_summary>
+            <description>[Brief overview of assessment findings and overall security posture with RISK LEVEL classification]</description>
+        </executive_summary>
+
+        <risk_categories>
+            <risk_category>
+                <title>🔴 TECHNOLOGY/CYBER RISK CATEGORY</title>
+                <format>
+                    <description>For each technology risk, provide:</description>
+                    <fields>
+                        <field>Security Issue: [Description]</field>
+                        <field>Likelihood: [1-5 scale]</field>
+                        <field>Impact: [1-5 scale]</field>
+                        <field>FSI Risk Score: [Likelihood × Impact]</field>
+                        <field>Control Effectiveness: [E/PE/NI]</field>
+                        <field>Residual Risk: [CRITICAL/HIGH/MEDIUM/LOW]</field>
+                        <field>Evidence: [Specific evidence from document]</field>
+                    </fields>
+                </format>
+            </risk_category>
+
+            <risk_category>
+                <title>🟡 PRIVACY RISK CATEGORY</title>
+                <format>Same format as above for privacy-related risks</format>
+            </risk_category>
+
+            <risk_category>
+                <title>🔵 REGULATORY/COMPLIANCE RISK CATEGORY</title>
+                <format>Same format as above for compliance risks</format>
+            </risk_category>
+        </risk_categories>
+
+        <comprehensive_risk_matrix>
+            <title>📊 COMPREHENSIVE RISK MATRIX</title>
+            <table>
+                <headers>
+                    <header>Risk Category</header>
+                    <header>Critical (25)</header>
+                    <header>High (16-20)</header>
+                    <header>Medium (9-15)</header>
+                    <header>Total Issues</header>
+                </headers>
+                <rows>
+                    <row>
+                        <category>Technology/Cyber</category>
+                        <critical>[count]</critical>
+                        <high>[count]</high>
+                        <medium>[count]</medium>
+                        <total>[total]</total>
+                    </row>
+                    <row>
+                        <category>Privacy</category>
+                        <critical>[count]</critical>
+                        <high>[count]</high>
+                        <medium>[count]</medium>
+                        <total>[total]</total>
+                    </row>
+                    <row>
+                        <category>Regulatory/Compliance</category>
+                        <critical>[count]</critical>
+                        <high>[count]</high>
+                        <medium>[count]</medium>
+                        <total>[total]</total>
+                    </row>
+                    <row>
+                        <category>**TOTALS**</category>
+                        <critical>[total]</critical>
+                        <high>[total]</high>
+                        <medium>[total]</medium>
+                        <total>[grand total]</total>
+                    </row>
+                </rows>
+            </table>
+        </comprehensive_risk_matrix>
+
+        <control_effectiveness_summary>
+            <title>🎯 CONTROL EFFECTIVENESS SUMMARY</title>
+            <table>
+                <headers>
+                    <header>Control Domain</header>
+                    <header>Total Controls</header>
+                    <header>Effective (E)</header>
+                    <header>Partially Effective (PE)</header>
+                    <header>Not Implemented (NI)</header>
+                </headers>
+                <rows>
+                    <row>
+                        <domain>Data Protection</domain>
+                        <total>[count]</total>
+                        <effective>[count]</effective>
+                        <partially_effective>[count]</partially_effective>
+                        <not_implemented>[count]</not_implemented>
+                    </row>
+                    <row>
+                        <domain>Network Security</domain>
+                        <total>[count]</total>
+                        <effective>[count]</effective>
+                        <partially_effective>[count]</partially_effective>
+                        <not_implemented>[count]</not_implemented>
+                    </row>
+                    <row>
+                        <domain>Access Control</domain>
+                        <total>[count]</total>
+                        <effective>[count]</effective>
+                        <partially_effective>[count]</partially_effective>
+                        <not_implemented>[count]</not_implemented>
+                    </row>
+                    <row>
+                        <domain>**TOTALS**</domain>
+                        <total>[total]</total>
+                        <effective>[total]</effective>
+                        <partially_effective>[total]</partially_effective>
+                        <not_implemented>[total]</not_implemented>
+                    </row>
+                </rows>
+            </table>
+            <implementation_rate>**Control Implementation Rate**: [%] Effective, [%] Partially Effective, [%] Not Implemented</implementation_rate>
+        </control_effectiveness_summary>
+
+        <immediate_critical_actions>
+            <title>🚨 IMMEDIATE CRITICAL ACTIONS (0-30 DAYS)</title>
+            <priority_1>
+                <title>Priority 1 - Critical Security Controls</title>
+                <actions>
+                    <action>1. [Critical action 1]</action>
+                    <action>2. [Critical action 2]</action>
+                </actions>
+            </priority_1>
+            <priority_2>
+                <title>Priority 2 - Compliance Foundation</title>
+                <actions>
+                    <action>1. [Compliance action 1]</action>
+                    <action>2. [Compliance action 2]</action>
+                </actions>
+            </priority_2>
+        </immediate_critical_actions>
+
+        <risk_trajectory>
+            <title>📈 RISK TRAJECTORY</title>
+            <current_state>
+                <title>**Current State**</title>
+                <risk_level>[RISK LEVEL] (Score: [X]/25)</risk_level>
+                <breakdown>
+                    <technology_cyber>Technology/Cyber Risk: [score]</technology_cyber>
+                    <privacy>Privacy Risk: [score]</privacy>
+                    <regulatory_compliance>Regulatory/Compliance Risk: [score]</regulatory_compliance>
+                </breakdown>
+            </current_state>
+            <target_state>
+                <title>**Target State (Post-Remediation)**</title>
+                <risk_level>[RISK LEVEL] (Score: [X]/25)</risk_level>
+            </target_state>
+        </risk_trajectory>
+
+        <business_impact_assessment>
+            <title>⚠️ BUSINESS IMPACT ASSESSMENT</title>
+            <immediate_risks>
+                <title>Immediate Risks</title>
+                <risks>
+                    <risk>[Business risk 1]</risk>
+                    <risk>[Business risk 2]</risk>
+                </risks>
+            </immediate_risks>
+            <recommended_actions>
+                <title>Recommended Actions</title>
+                <actions>
+                    <action>[Business action 1]</action>
+                    <action>[Business action 2]</action>
+                </actions>
+            </recommended_actions>
+        </business_impact_assessment>
+
+        <overall_classification>
+            <title>**OVERALL RESIDUAL RISK CLASSIFICATION**</title>
+            <classification>[CRITICAL/HIGH/MEDIUM/LOW] - [ACTION REQUIRED]</classification>
+        </overall_classification>
+
+        <critical_save_instruction>
+            <title>**CRITICAL**</title>
+            <instruction>After completing the assessment, you MUST immediately call the save_security_assessment_results tool to save the results to S3 storage.</instruction>
+        </critical_save_instruction>
+    </assessment_template>
+</fsi_security_architecture_review>

@@ -1,0 +1,190 @@
+# Retail Industry Configuration
+
+industry: "Retail"
+
+# Additional industry-specific fields
+additional_fields:
+  - name: "retail_type"
+    type: "multi_select"
+    required: true
+    question: "What type of retail operations do you conduct?"
+    options:
+      - "Brick-and-Mortar Stores"
+      - "E-commerce"
+      - "Omnichannel"
+      - "Marketplace"
+      - "Direct-to-Consumer (D2C)"
+    document_extraction:
+      enabled: true
+      keywords: ["brick-and-mortar", "e-commerce", "omnichannel", "online retail"]
+      confidence_threshold: 0.85
+      
+  - name: "pci_dss_level"
+    type: "choice"
+    required: true
+    question: "What is your PCI DSS merchant level?"
+    options:
+      - value: "level_1"
+        label: "Level 1 (>6M transactions/year)"
+      - value: "level_2"
+        label: "Level 2 (1-6M transactions/year)"
+      - value: "level_3"
+        label: "Level 3 (20K-1M transactions/year)"
+      - value: "level_4"
+        label: "Level 4 (<20K transactions/year)"
+      - value: "not_applicable"
+        label: "Not Applicable"
+    document_extraction:
+      enabled: true
+      keywords: ["PCI DSS", "PCI compliance", "merchant level"]
+      confidence_threshold: 0.90
+      
+  - name: "payment_processing"
+    type: "multi_select"
+    required: true
+    question: "What payment processing methods do you support?"
+    options:
+      - "Credit/Debit Cards"
+      - "Mobile Payments (Apple Pay, Google Pay)"
+      - "Digital Wallets"
+      - "Buy Now Pay Later (BNPL)"
+      - "Cryptocurrency"
+      - "Cash"
+    document_extraction:
+      enabled: true
+      keywords: ["payment processing", "credit card", "mobile payment"]
+      confidence_threshold: 0.85
+      
+  - name: "pos_systems"
+    type: "text"
+    required: true
+    question: "What point-of-sale (POS) systems do you use?"
+    document_extraction:
+      enabled: true
+      keywords: ["POS", "point of sale", "POS system"]
+      confidence_threshold: 0.85
+      
+  - name: "customer_data_collection"
+    type: "multi_select"
+    required: true
+    question: "What customer data do you collect?"
+    options:
+      - "Payment Card Information"
+      - "Personal Identifiable Information (PII)"
+      - "Purchase History"
+      - "Loyalty Program Data"
+      - "Behavioral Analytics"
+      - "Location Data"
+    document_extraction:
+      enabled: true
+      keywords: ["customer data", "PII", "payment card", "purchase history"]
+      confidence_threshold: 0.80
+      
+  - name: "inventory_management"
+    type: "text"
+    required: true
+    question: "What inventory management systems do you use?"
+    document_extraction:
+      enabled: true
+      keywords: ["inventory management", "inventory system", "stock management"]
+      confidence_threshold: 0.80
+      
+  - name: "ecommerce_platform"
+    type: "text"
+    required: false
+    question: "What e-commerce platform do you use?"
+    document_extraction:
+      enabled: true
+      keywords: ["e-commerce platform", "online store", "shopping cart"]
+      confidence_threshold: 0.85
+      
+  - name: "customer_privacy_compliance"
+    type: "multi_select"
+    required: true
+    question: "Which customer privacy regulations apply to you?"
+    options:
+      - "CCPA (California)"
+      - "GDPR (Europe)"
+      - "CPRA (California)"
+      - "State Privacy Laws"
+      - "None"
+    document_extraction:
+      enabled: true
+      keywords: ["CCPA", "GDPR", "privacy law", "customer privacy"]
+      confidence_threshold: 0.85
+
+# Contextual questions for sub-industries
+contextual_questions:
+  ecommerce:
+    trigger_keywords: ["e-commerce", "online", "digital", "web store"]
+    questions:
+      - name: "website_security"
+        question: "What website security measures do you have in place?"
+      - name: "fraud_prevention"
+        question: "What fraud prevention tools do you use?"
+        
+  brick_and_mortar:
+    trigger_keywords: ["store", "retail location", "physical store"]
+    questions:
+      - name: "store_count"
+        question: "How many physical store locations do you operate?"
+      - name: "store_security"
+        question: "What physical security measures do you have in stores?"
+        
+  omnichannel:
+    trigger_keywords: ["omnichannel", "multi-channel", "unified commerce"]
+    questions:
+      - name: "channel_integration"
+        question: "How do you integrate online and offline channels?"
+      - name: "unified_inventory"
+        question: "Do you have unified inventory management across channels?"
+
+# Industry-specific regulations
+regulations:
+  - name: "PCI DSS"
+    description: "Payment Card Industry Data Security Standard"
+    applicability: "All merchants accepting payment cards"
+    
+  - name: "CCPA"
+    description: "California Consumer Privacy Act"
+    applicability: "Retailers serving California customers"
+    
+  - name: "GDPR"
+    description: "General Data Protection Regulation"
+    applicability: "Retailers serving EU customers"
+    
+  - name: "FTC Act"
+    description: "Federal Trade Commission Act - Consumer Protection"
+    applicability: "All US retailers"
+    
+  - name: "State Data Breach Laws"
+    description: "State-specific data breach notification requirements"
+    applicability: "Varies by state"
+
+# MCP search queries for this industry
+mcp_search_queries:
+  - query: "retail cybersecurity threats e-commerce"
+    use_for: ["threat_landscape", "risk_assessment"]
+    
+  - query: "PCI DSS compliance requirements retail"
+    use_for: ["regulatory_compliance", "payment_security"]
+    
+  - query: "retail customer data protection best practices"
+    use_for: ["data_protection", "privacy"]
+    
+  - query: "point of sale security vulnerabilities"
+    use_for: ["technology_environment", "infrastructure_protection"]
+
+# Common security tools in this industry
+common_tools:
+  - category: "Payment Security"
+    tools: ["Payment gateways", "Tokenization", "P2PE (Point-to-Point Encryption)"]
+    
+  - category: "E-commerce Security"
+    tools: ["Web application firewalls", "DDoS protection", "Fraud detection"]
+    
+  - category: "Data Protection"
+    tools: ["Customer data encryption", "PII protection", "Data loss prevention"]
+    
+  - category: "POS Security"
+    tools: ["POS encryption", "EMV compliance", "Network segmentation"]

@@ -1,0 +1,9 @@
+// replace <values> with your own
+
+aws_account_id = "<your account id>"
+aws_profile    = "<your aws profile>"
+region         = "<your aws region>" 
+project_name   = "risk-agent" 
+
+terraform_state_bucket = "risk-agent-terraform-state-<your account id>"
+terraform_locks_table  = "risk-agent-terraform-locks-<your account id>"

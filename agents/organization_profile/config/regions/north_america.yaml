@@ -1,0 +1,84 @@
+# North America Region Configuration
+
+region: "North America"
+
+# Region-specific regulations by country
+regulations:
+  united_states:
+    - name: "CCPA"
+      description: "California Consumer Privacy Act"
+      mandatory: true
+      applicability: "California customers"
+      
+    - name: "CPRA"
+      description: "California Privacy Rights Act"
+      mandatory: true
+      applicability: "California customers"
+      
+    - name: "HIPAA"
+      description: "Health Insurance Portability and Accountability Act"
+      mandatory: true
+      applicability: "Healthcare data"
+      
+    - name: "GLBA"
+      description: "Gramm-Leach-Bliley Act"
+      mandatory: true
+      applicability: "Financial institutions"
+      
+    - name: "SOX"
+      description: "Sarbanes-Oxley Act"
+      mandatory: true
+      applicability: "Public companies"
+      
+    - name: "State Data Breach Laws"
+      description: "State-specific data breach notification requirements"
+      mandatory: true
+      applicability: "All states"
+      
+  canada:
+    - name: "PIPEDA"
+      description: "Personal Information Protection and Electronic Documents Act"
+      mandatory: true
+      
+    - name: "Provincial Privacy Laws"
+      description: "Province-specific privacy requirements"
+      mandatory: true
+      applicability: "Varies by province"
+      
+  mexico:
+    - name: "LFPDPPP"
+      description: "Federal Law on Protection of Personal Data"
+      mandatory: true
+
+# Region-specific questions
+additional_questions:
+  - field: "state_privacy_laws"
+    question: "Which US state privacy laws apply to your organization?"
+    options:
+      - "CCPA/CPRA (California)"
+      - "VCDPA (Virginia)"
+      - "CPA (Colorado)"
+      - "CTDPA (Connecticut)"
+      - "UCPA (Utah)"
+      - "Multiple States"
+      - "None"
+    
+  - field: "data_breach_notification"
+    question: "Do you have data breach notification procedures in place?"
+    
+  - field: "cross_border_data_transfers"
+    question: "Do you transfer data between US, Canada, and Mexico?"
+    
+  - field: "sector_specific_regulations"
+    question: "Are you subject to sector-specific regulations (HIPAA, GLBA, etc.)?"
+
+# MCP search queries for this region
+mcp_search_queries:
+  - query: "US state privacy laws compliance requirements"
+    use_for: ["regulatory_compliance", "data_protection"]
+    
+  - query: "CCPA CPRA compliance {industry}"
+    use_for: ["privacy", "compliance"]
+    
+  - query: "North America cybersecurity regulations"
+    use_for: ["regulatory_compliance", "security_controls"]

@@ -1,0 +1,53 @@
+# Staging Environment Configuration
+# checkov:skip=CKV_SECRET_6:Example file with placeholder values, not actual secrets
+aws_account_id = "<YOUR_AWS_ACCOUNT_ID>"
+aws_profile    = "<YOUR_AWS_PROFILE>"
+
+# Regional Configuration
+region = "us-east-1"
+
+# Project Configuration
+project_name = "risk-agent"
+environment  = "staging"
+
+# Terraform State Management
+terraform_state_bucket = "risk-agent-terraform-state-<YOUR_AWS_ACCOUNT_ID>"
+terraform_locks_table  = "risk-agent-terraform-locks-<YOUR_AWS_ACCOUNT_ID>"
+
+# Cognito Configuration - domain prefix will be constructed dynamically
+# Format: {project_name}-{environment}-{account_id}
+cognito_callback_urls = [
+  "http://localhost:3000/auth/callback"
+]
+cognito_logout_urls = [
+  "http://localhost:3000/"
+]
+
+# Lambda Functions - Defined in Lambda module
+
+# Langfuse Integration - SaaS with OpenTelemetry
+langfuse_enabled = false
+langfuse_saas_enabled = true
+langfuse_saas_host = "https://us.cloud.langfuse.com"
+
+# Cross-account Bedrock Configuration - DISABLED for inference profile compatibility
+# bedrock_role_arn = "arn:aws:iam::<YOUR_AWS_ACCOUNT_ID>:role/<YOUR_BEDROCK_ROLE>"
+# bedrock_account_id = "<CROSS_ACCOUNT_ID>"
+bedrock_account_id = "<YOUR_AWS_ACCOUNT_ID>"  # Use same account
+bedrock_model_id = "arn:aws:bedrock:us-east-1:<YOUR_AWS_ACCOUNT_ID>:inference-profile/global.anthropic.claude-sonnet-4-20250514-v1:0"  # Claude Sonnet 4 Inference Profile
+admin_bedrock_model_id = "us.anthropic.claude-sonnet-4-20250514-v1:0"  # For admin functions
+bedrock_role_name = "risk-agent-bedrock-role"
+bedrock_max_tokens = 40000
+bedrock_temperature = 0.0
+bedrock_top_p = 0.1
+bedrock_top_k = 1
+bedrock_timeout = 120
+
+# RAG-specific configuration for discover_framework_controls
+rag_bedrock_model_id = "anthropic.claude-3-5-sonnet-20241022-v2:0"
+rag_bedrock_temperature = 0.0
+rag_bedrock_top_p = 0.1
+rag_bedrock_top_k = 1
+
+# API Gateway Routes Configuration - Module will create all routes automatically
+api_gateway_routes = {}

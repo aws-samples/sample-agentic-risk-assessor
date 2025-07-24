@@ -1,0 +1,165 @@
+/* Projects Table Styles */
+.projectsTable {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.projectsTable thead tr {
+  background-color: #ff6b35;
+  color: #ffffff;
+}
+
+.projectsTable th {
+  text-align: left;
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  border-bottom: 2px solid #ff4400;
+}
+
+.projectsTable th.actions-header {
+  text-align: center;
+}
+
+.projectsTable tbody tr {
+  border-bottom: 1px solid #e9ecef;
+  transition: background-color 0.2s;
+}
+
+.projectsTable tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
+.projectsTable tbody tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.projectsTable tbody tr:hover {
+  background-color: #fff3f0 !important;
+}
+
+.projectsTable td {
+  padding: 1rem;
+  color: #333;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.projectsTable td.description {
+  color: #666;
+  font-size: 0.95rem;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.projectsTable td.date {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.projectsTable td.actions {
+  text-align: center;
+}
+
+.viewDetailsBtn {
+  background-color: #ff6b35;
+  color: #ffffff;
+  border: none;
+  padding: 0.3rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(255, 107, 53, 0.2);
+}
+
+.viewDetailsBtn:hover {
+  background-color: #ff4400;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(255, 107, 53, 0.3);
+}
+
+/* Card View Styles */
+.projectsGrid {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.projectCard {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.projectCardContent {
+  flex: 1;
+}
+
+.projectCardName {
+  color: #ff6b35;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.projectCardDescription {
+  color: #666;
+  font-size: 1rem;
+}
+
+.projectCardDate {
+  color: #999;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.projectCardBNtn {
+  background-color: #ff6b35;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+/* Pagination Styles */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.paginationBtn {
+  background-color: #ff6b35;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.paginationBtn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.paginationInfo {
+  color: #666;
+  font-size: 0.9rem;
+}

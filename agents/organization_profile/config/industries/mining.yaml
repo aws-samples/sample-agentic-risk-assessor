@@ -1,0 +1,173 @@
+# Mining Industry Configuration
+
+industry: "Mining"
+
+# Additional industry-specific fields
+additional_fields:
+  - name: "mining_type"
+    type: "multi_select"
+    required: true
+    question: "What type of mining operations do you conduct?"
+    options:
+      - "Surface Mining"
+      - "Underground Mining"
+      - "Placer Mining"
+      - "In-situ Mining"
+    document_extraction:
+      enabled: true
+      keywords: ["surface mining", "underground", "placer", "in-situ"]
+      confidence_threshold: 0.85
+      
+  - name: "msha_compliance"
+    type: "boolean"
+    required: true
+    question: "Are you subject to MSHA (Mine Safety and Health Administration) regulations?"
+    document_extraction:
+      enabled: true
+      keywords: ["MSHA", "Mine Safety", "mine safety regulations"]
+      confidence_threshold: 0.90
+      
+  - name: "environmental_compliance"
+    type: "multi_select"
+    required: true
+    question: "Which environmental regulations apply to your operations?"
+    options:
+      - "Clean Water Act"
+      - "Clean Air Act"
+      - "CERCLA (Superfund)"
+      - "RCRA (Resource Conservation)"
+      - "State Mining Regulations"
+    document_extraction:
+      enabled: true
+      keywords: ["environmental compliance", "Clean Water Act", "Clean Air Act"]
+      confidence_threshold: 0.85
+      
+  - name: "operational_technology"
+    type: "multi_select"
+    required: true
+    question: "What operational technology (OT) systems do you use?"
+    options:
+      - "SCADA Systems"
+      - "Industrial Control Systems (ICS)"
+      - "Fleet Management Systems"
+      - "Ventilation Control Systems"
+      - "Conveyor Control Systems"
+      - "Autonomous Equipment"
+    document_extraction:
+      enabled: true
+      keywords: ["SCADA", "ICS", "operational technology", "OT", "automation"]
+      confidence_threshold: 0.80
+      
+  - name: "remote_operations"
+    type: "boolean"
+    required: true
+    question: "Do you have remote or autonomous mining operations?"
+    document_extraction:
+      enabled: true
+      keywords: ["remote operations", "autonomous", "remote control"]
+      confidence_threshold: 0.85
+      
+  - name: "safety_management_system"
+    type: "choice"
+    required: true
+    question: "What safety management system do you use?"
+    options:
+      - "ISO 45001"
+      - "OHSAS 18001"
+      - "Custom System"
+      - "None"
+    document_extraction:
+      enabled: true
+      keywords: ["safety management", "ISO 45001", "OHSAS"]
+      confidence_threshold: 0.85
+      
+  - name: "worker_safety_tech"
+    type: "multi_select"
+    required: false
+    question: "What worker safety technologies do you use?"
+    options:
+      - "Personal Emergency Devices"
+      - "Gas Detection Systems"
+      - "Proximity Detection"
+      - "Fatigue Monitoring"
+      - "Wearable Safety Devices"
+    document_extraction:
+      enabled: true
+      keywords: ["safety technology", "emergency devices", "gas detection"]
+      confidence_threshold: 0.80
+
+# Contextual questions for sub-industries
+contextual_questions:
+  coal_mining:
+    trigger_keywords: ["coal", "coal mine"]
+    questions:
+      - name: "methane_monitoring"
+        question: "What methane monitoring systems do you have in place?"
+      - name: "ventilation_systems"
+        question: "Describe your mine ventilation control systems"
+        
+  metal_mining:
+    trigger_keywords: ["metal", "ore", "copper", "gold", "iron"]
+    questions:
+      - name: "processing_facilities"
+        question: "Do you operate ore processing facilities?"
+      - name: "tailings_management"
+        question: "How do you manage tailings storage facilities?"
+        
+  quarrying:
+    trigger_keywords: ["quarry", "aggregate", "stone"]
+    questions:
+      - name: "blasting_operations"
+        question: "Do you conduct blasting operations?"
+      - name: "crushing_systems"
+        question: "What crushing and screening systems do you use?"
+
+# Industry-specific regulations
+regulations:
+  - name: "MSHA Regulations"
+    description: "Mine Safety and Health Administration regulations"
+    applicability: "All US mining operations"
+    
+  - name: "30 CFR"
+    description: "Code of Federal Regulations for Mineral Resources"
+    applicability: "US mining operations"
+    
+  - name: "Clean Water Act"
+    description: "Water discharge and pollution prevention"
+    applicability: "Mining operations with water discharge"
+    
+  - name: "NEPA"
+    description: "National Environmental Policy Act"
+    applicability: "New mining projects and expansions"
+    
+  - name: "State Mining Laws"
+    description: "State-specific mining regulations"
+    applicability: "Varies by state"
+
+# MCP search queries for this industry
+mcp_search_queries:
+  - query: "mining cybersecurity threats operational technology"
+    use_for: ["threat_landscape", "OT_security"]
+    
+  - query: "MSHA safety regulations compliance"
+    use_for: ["regulatory_compliance", "safety"]
+    
+  - query: "mining SCADA security best practices"
+    use_for: ["OT_security", "infrastructure_protection"]
+    
+  - query: "autonomous mining equipment security"
+    use_for: ["technology_environment", "risk_assessment"]
+
+# Common security tools in this industry
+common_tools:
+  - category: "OT Security"
+    tools: ["Industrial firewalls", "SCADA security", "Network segmentation"]
+    
+  - category: "Safety Systems"
+    tools: ["Emergency notification", "Gas detection", "Proximity detection"]
+    
+  - category: "Environmental Monitoring"
+    tools: ["Water quality monitoring", "Air quality monitoring", "Compliance tracking"]
+    
+  - category: "Asset Management"
+    tools: ["Fleet management", "Equipment monitoring", "Maintenance systems"]

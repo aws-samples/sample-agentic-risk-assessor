@@ -1,0 +1,61 @@
+# Build stage - install build dependencies and compile packages
+FROM --platform=linux/amd64 python:3.10-slim as builder
+
+WORKDIR /app
+
+# Install build dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    build-essential \
+    libffi-dev \
+    libssl-dev \
+    cargo \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements and install Python dependencies
+COPY agents/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Runtime stage - lightweight final image
+FROM --platform=linux/amd64 python:3.10-slim
+
+WORKDIR /app
+
+# Install only runtime dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy compiled packages from builder stage
+COPY --from=builder /usr/local/lib/python3.10/site-packages /usr/local/lib/python3.10/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+
+# Copy only security architect agent code and shared dependencies
+COPY agents/security_architect/ ./agents/security_architect/
+COPY agents/shared/ ./agents/shared/
+COPY agents/__init__.py ./agents/
+COPY agents/tools/ ./tools/
+COPY config/ ./config/
+
+# Create non-root user
+RUN groupadd -r appuser && useradd -r -g appuser appuser && \
+    chown -R appuser:appuser /app
+
+# Switch to non-root user
+USER appuser
+
+# Set environment variables for security architect
+ENV AGENT_TYPE=security_architect
+ENV AGENT_PORT=9004
+ENV PROJECT_NAME=risk-agent
+ENV AWS_REGION=us-east-1
+
+# Expose security architect port
+EXPOSE 9004
+
+# Health check for security architect
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:9004/health || exit 1
+
+# Run security architect agent
+CMD ["python", "-m", "agents.security_architect.main"]

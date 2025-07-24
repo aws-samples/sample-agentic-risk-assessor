@@ -1,0 +1,210 @@
+# Financial Services Industry Configuration
+
+industry: "Financial Services"
+
+# Additional industry-specific fields
+additional_fields:
+  - name: "financial_services_type"
+    type: "multi_select"
+    required: true
+    question: "What type of financial services do you provide?"
+    options:
+      - "Retail Banking"
+      - "Investment Banking"
+      - "Insurance"
+      - "Asset Management"
+      - "Payment Processing"
+      - "Fintech Services"
+    document_extraction:
+      enabled: true
+      keywords: ["banking", "investment", "insurance", "asset management", "payment"]
+      confidence_threshold: 0.85
+      
+  - name: "pci_dss_level"
+    type: "choice"
+    required: true
+    question: "What is your PCI DSS merchant level?"
+    options:
+      - value: "level_1"
+        label: "Level 1 Merchant (>6M transactions/year)"
+      - value: "level_2_4"
+        label: "Level 2-4 Merchant"
+      - value: "not_applicable"
+        label: "Not Applicable"
+    document_extraction:
+      enabled: true
+      keywords: ["PCI DSS", "PCI compliance", "payment card"]
+      confidence_threshold: 0.90
+      
+  - name: "sox_compliance"
+    type: "choice"
+    required: true
+    question: "Are you subject to SOX compliance requirements?"
+    options:
+      - value: "public_company"
+        label: "Yes - Public Company"
+      - value: "subsidiary"
+        label: "Yes - Subsidiary of Public Company"
+      - value: "no"
+        label: "No"
+    document_extraction:
+      enabled: true
+      keywords: ["SOX", "Sarbanes-Oxley", "SOX compliance"]
+      confidence_threshold: 0.90
+      
+  - name: "basel_compliance"
+    type: "choice"
+    required: false
+    question: "Does your organization comply with Basel III requirements?"
+    options:
+      - "Yes - Tier 1 Bank"
+      - "Yes - Tier 2 Bank"
+      - "No - Not Applicable"
+    document_extraction:
+      enabled: true
+      keywords: ["Basel", "Basel III", "capital requirements"]
+      confidence_threshold: 0.90
+      
+  - name: "glba_compliance"
+    type: "boolean"
+    required: true
+    question: "Are you subject to GLBA (Gramm-Leach-Bliley Act) requirements?"
+    document_extraction:
+      enabled: true
+      keywords: ["GLBA", "Gramm-Leach-Bliley"]
+      confidence_threshold: 0.90
+      
+  - name: "financial_data_types"
+    type: "multi_select"
+    required: true
+    question: "What types of financial data do you handle?"
+    options:
+      - "Account Information"
+      - "Transaction Data"
+      - "Credit Card Data"
+      - "Investment Portfolio Data"
+      - "Personal Financial Information"
+      - "Trading Data"
+    document_extraction:
+      enabled: true
+      keywords: ["account information", "transaction data", "credit card", "portfolio"]
+      confidence_threshold: 0.80
+      
+  - name: "trading_systems"
+    type: "boolean"
+    required: false
+    question: "Do you operate trading systems or platforms?"
+    document_extraction:
+      enabled: true
+      keywords: ["trading system", "trading platform", "securities trading"]
+      confidence_threshold: 0.85
+      
+  - name: "mobile_banking"
+    type: "boolean"
+    required: false
+    question: "Do you provide mobile banking services?"
+    document_extraction:
+      enabled: true
+      keywords: ["mobile banking", "mobile app", "banking app"]
+      confidence_threshold: 0.85
+      
+  - name: "fraud_detection"
+    type: "text"
+    required: false
+    question: "What fraud detection and prevention systems do you use?"
+    document_extraction:
+      enabled: true
+      keywords: ["fraud detection", "fraud prevention", "anti-fraud"]
+      confidence_threshold: 0.80
+
+# Contextual questions for sub-industries
+contextual_questions:
+  retail_banking:
+    trigger_keywords: ["retail bank", "consumer bank", "branch"]
+    questions:
+      - name: "branch_count"
+        question: "How many branch locations do you operate?"
+      - name: "atm_network"
+        question: "Do you operate an ATM network?"
+        
+  investment_banking:
+    trigger_keywords: ["investment bank", "securities", "trading"]
+    questions:
+      - name: "trading_volume"
+        question: "What is your typical daily trading volume?"
+      - name: "hft_systems"
+        question: "Do you use high-frequency trading systems?"
+        
+  insurance:
+    trigger_keywords: ["insurance", "underwriting", "claims"]
+    questions:
+      - name: "insurance_types"
+        question: "What types of insurance products do you offer?"
+      - name: "claims_processing"
+        question: "What claims processing systems do you use?"
+        
+  fintech:
+    trigger_keywords: ["fintech", "digital banking", "neobank"]
+    questions:
+      - name: "fintech_services"
+        question: "What fintech services do you provide?"
+      - name: "api_banking"
+        question: "Do you provide banking APIs or open banking services?"
+
+# Industry-specific regulations
+regulations:
+  - name: "SOX"
+    description: "Sarbanes-Oxley Act"
+    applicability: "Public companies and subsidiaries"
+    
+  - name: "PCI DSS"
+    description: "Payment Card Industry Data Security Standard"
+    applicability: "Payment processors and merchants"
+    
+  - name: "GLBA"
+    description: "Gramm-Leach-Bliley Act"
+    applicability: "Financial institutions"
+    
+  - name: "Basel III"
+    description: "Basel III Capital Requirements"
+    applicability: "Banks and financial institutions"
+    
+  - name: "Dodd-Frank"
+    description: "Dodd-Frank Wall Street Reform"
+    applicability: "Banks and financial institutions"
+    
+  - name: "FFIEC Guidelines"
+    description: "Federal Financial Institutions Examination Council"
+    applicability: "US financial institutions"
+    
+  - name: "FINRA Rules"
+    description: "Financial Industry Regulatory Authority"
+    applicability: "Broker-dealers and investment firms"
+
+# MCP search queries for this industry
+mcp_search_queries:
+  - query: "financial services cybersecurity threats 2025"
+    use_for: ["threat_landscape", "risk_assessment"]
+    
+  - query: "banking security regulations compliance"
+    use_for: ["regulatory_compliance", "security_controls"]
+    
+  - query: "PCI DSS compliance requirements financial"
+    use_for: ["payment_security", "compliance"]
+    
+  - query: "financial fraud prevention best practices"
+    use_for: ["fraud_detection", "risk_management"]
+
+# Common security tools in this industry
+common_tools:
+  - category: "Fraud Detection"
+    tools: ["Fraud detection systems", "Transaction monitoring", "Behavioral analytics"]
+    
+  - category: "Payment Security"
+    tools: ["Payment gateways", "Tokenization", "EMV compliance"]
+    
+  - category: "Compliance"
+    tools: ["SOX compliance software", "Audit management", "Risk assessment tools"]
+    
+  - category: "Data Protection"
+    tools: ["Encryption solutions", "DLP", "Database security"]

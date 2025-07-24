@@ -1,0 +1,405 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: transparent;
+  color: white;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.supervisorCard {
+  /* position: absolute;
+  top: 50px;
+  left: 50%;
+  padding: 5px;
+  transform: translateX(-50%);
+  width: 350px;
+  height: 250px;
+  background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(255,140,0,0.1) 100%);
+  border: 3px solid rgba(255,215,0,0.3);
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+  box-shadow: 0 15px 35px rgba(255,215,0,0.2);
+  z-index: 10; */
+
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 350px;
+  height: 300px;
+  padding: 5px;
+  background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(255,140,0,0.1) 100%);
+  /* background: rgba(255,255,255,0.05); */
+  border: 2px solid rgb(254, 239, 96);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+  z-index: 10;
+}
+
+.supervisorCard.active {
+  border-color: #FFD700;
+  /* background: linear-gradient(135deg, rgba(255,215,0,0.2) 0%, rgba(255,140,0,0.2) 100%); */
+  /* transform: translateX(-50%) scale(1.05); */
+  /* box-shadow: 0 25px 50px rgba(255,215,0,0.4); */
+}
+
+.supervisorCard.completed {
+  border-color: #33ff00;
+  /* background: linear-gradient(135deg, rgba(255,215,0,0.15) 0%, rgba(255,140,0,0.15) 100%); */
+  /* box-shadow: 0 20px 40px rgba(255,215,0,0.3); */
+}
+
+.supervisorIcon {
+  /* font-size: 3.5rem; */
+  padding: 0px;
+  filter: grayscale(0%);
+  /* transition: all 0.5s ease; */
+  height: 40px;
+}
+
+.supervisorCard.active .supervisorIcon {
+  transform: scale(1.1) rotate(10deg);
+}
+
+.supervisorTitle {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #FFD700;
+  margin-top: 10px;
+  text-shadow: 0 0 10px rgba(255,215,0,0.5);
+}
+
+.supervisorExplanation {
+  font-size: 0.9rem;
+  color: #eaff00;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+.supervisorSubtitle {
+  font-size: 0.9rem;
+  color: #FFA500;
+  margin-top: 10px;
+}
+
+.agentCard {
+  position: absolute;
+  width: 300px;
+  height: 250px;
+  background: linear-gradient(135deg, rgba(255,215,0,0.1) 0%, rgba(255,140,0,0.1) 100%);
+  border: 2px solid rgb(254, 239, 96);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* justify-content: center; */
+  vertical-align: top;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(20px);
+  cursor: pointer;
+  padding: 5px;
+  text-align: center;
+}
+
+.agentCard.active {
+  border-color: #667eea;
+  background: rgba(102, 126, 234, 0.15);
+  /* transform: scale(1.1); */
+  box-shadow: 0 30px 60px rgba(102, 126, 234, 0.4);
+}
+
+.agentCard.completed {
+  border-color: #33ff00;
+  background: rgba(0, 212, 170, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 212, 170, 0.3);
+}
+
+.architect {
+  top: calc(50vh - 50px);
+  left: 18%;
+  transform: translateX(-50%);
+  color: #FFD700;
+}
+
+.security {
+  top: calc(50vh - 50px);
+  left: 50%;
+  transform: translateX(-50%);
+  color: #FFD700;
+}
+
+.risk {
+  top: calc(50vh - 50px);
+  left: 82%;
+  transform: translateX(-50%);
+  color: #FFD700;
+}
+
+.agentIcon {
+  font-size: 1.75rem;
+  /* margin-bottom: 15px; */
+  /* filter: grayscale(70%); */
+  /* transition: all 0.5s ease; */
+  vertical-align: top;
+  margin-bottom: 10px;
+}
+
+.agentCard.active .agentIcon,
+.agentCard.completed .agentIcon {
+  filter: grayscale(0%);
+  /* transform: scale(1.2); */
+}
+
+.agentTitle {
+  font-size: 1.5rem;
+  font-weight: 500;
+  /* color: #8892b0; */
+  color: #FFD700;
+  transition: color 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.agentExplanation {
+  font-size: 0.8rem;
+  font-weight: 500;
+  /* color: #8892b0; */
+  color: #eaff00;
+  transition: color 0.3s ease;
+  min-height: 100px;
+  margin-bottom: 10px;
+}
+
+.agentStep {
+  font-size: 0.8rem;
+  /* color: #64748b; */
+  color: #FFA500;
+  text-align: center;
+  min-height: 20px;
+  /* transition: color 0.3s ease; */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  /* max-width: 180px; */
+  line-height: 1.2;
+}
+
+.agentCard.active .agentTitle {
+  color: #6d87fb;
+}
+
+.agentCard.active .agentStep {
+  color: #6d87fb;
+  font-weight: 500;
+}
+
+.agentCard.completed .agentTitle {
+  color: #00d4aa;
+}
+
+.agentCard.completed .agentStep {
+  color: #00d4aa;
+}
+
+.statusOverlay {
+  position: absolute;
+  top: 400px;
+  left: 50%;
+  /* transform: translateX(-50%) scale(0.67); */
+  background: rgba(0,0,0,0.8);
+  padding: 15px 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,215,0,0.3);
+  backdrop-filter: blur(20px);
+  text-align: center;
+  min-width: 300px;
+  z-index: 15;
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.829);
+  /* transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); */
+}
+
+/* .statusOverlay.toRiskAssessment {
+  top: 220px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.67);
+}
+
+.statusOverlay.toArchitect {
+  top: calc(50vh + 120px);
+  left: 15%;
+  transform: translateX(-50%) scale(0.67);
+}
+
+.statusOverlay.toSecurity {
+  top: calc(50vh + 120px) !important;
+  left: 50%;
+  transform: translateX(-50%) scale(0.67);
+}
+
+.statusOverlay.toRisk {
+  top: calc(50vh + 120px);
+  left: 85%;
+  transform: translateX(-50%) scale(0.67);
+} */
+
+.statusText {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.statusDetail {
+  font-size: 1rem;
+  margin-top: 10px;
+  color: #8892b0;
+}
+
+.controls {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 15px;
+  z-index: 10;
+}
+
+.btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+}
+
+.btn:disabled {
+  background: rgba(255,255,255,0.1);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.progressRing {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 40px;
+  height: 40px;
+}
+
+.progressRingCircle {
+  fill: none;
+  stroke: rgba(255,255,255,0.2);
+  stroke-width: 3;
+  position: absolute;
+}
+
+.progressRingProgress {
+  fill: none;
+  stroke: #FFD700;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 50% 50%;
+  stroke-dasharray: 113;
+  stroke-dashoffset: 113;
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.supervisorProgress {
+  stroke: #FFD700;
+}
+
+/* .floatingParticles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(102, 126, 234, 0.6);
+  border-radius: 50%;
+  animation: floatParticle 8s linear infinite;
+}
+
+@keyframes floatParticle {
+  0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+} */
+
+.connectionLines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.connectionLine {
+  animation: connectionPulse 2s ease-in-out infinite;
+  stroke-dasharray: 10, 5;
+  stroke-dashoffset: 0;
+}
+
+.messageFlow {
+  animation: messageFlowAnimation 2s ease-in-out infinite;
+}
+
+@keyframes connectionPulse {
+  0%, 100% { 
+    opacity: 0.3;
+    stroke-width: 2;
+  }
+  50% { 
+    opacity: 1;
+    stroke-width: 4;
+  }
+}
+
+@keyframes messageFlowAnimation {
+  0% { 
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% { 
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% { 
+    transform: scale(0.8);
+    opacity: 0.7;
+  }
+}

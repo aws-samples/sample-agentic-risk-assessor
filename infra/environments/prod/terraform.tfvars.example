@@ -1,0 +1,51 @@
+# Staging Environment Configuration
+aws_account_id = "<your aws account id>"
+aws_profile    = "<your aws profile>"
+
+# Regional Configuration
+region = "<your aws region>"
+
+# Project Configuration
+project_name = "risk-agent" 
+environment  = "<environment>". # e.g. staging
+
+# Terraform State Management
+terraform_state_bucket = "risk-agent-terraform-state-<your aws account id>"
+terraform_locks_table  = "risk-agent-terraform-locks-<your aws account id>"
+
+# Cognito Configuration - domain prefix will be constructed dynamically
+# Format: {project_name}-{environment}-{account_id}
+cognito_callback_urls = [
+  "http://localhost:3000/auth/callback"
+]
+cognito_logout_urls = [
+  "http://localhost:3000/"
+]
+
+# Lambda Functions - Defined in Lambda module
+
+# Langfuse Integration - SaaS with OpenTelemetry
+langfuse_enabled = false
+langfuse_saas_enabled = true
+langfuse_saas_host = "https://us.cloud.langfuse.com"
+
+# Cross-account Bedrock Configuration
+bedrock_role_arn = "arn:aws:iam::<bedrock account id>:role/risk_assessment_bedrock_role"
+bedrock_account_id = "<bedrock account id>"
+bedrock_model_id = "us.anthropic.claude-sonnet-4-20250514-v1:0"  # For agents "anthropic.claude-haiku-4-5-20251001-v1:0" # "amazon.nova-pro-v1:0" # 
+admin_bedrock_model_id = "us.anthropic.claude-3-5-sonnet-20241022-v2:0"  # For admin functions
+bedrock_role_name = "<bedrock-role-name>" e.g. "risk-agent-bedrock-role"
+bedrock_max_tokens = 40000
+bedrock_temperature = 0.0
+bedrock_top_p = 0.1
+bedrock_top_k = 1
+bedrock_timeout = 120
+
+# API Gateway Routes Configuration - Module will create all routes automatically
+api_gateway_routes = {}
+
+# MCP Search Integration Configuration
+mcp_search_endpoint = "https://api.search.brave.com/res/v1/web/search"  # Example endpoint
+mcp_api_key = ""  # Set via environment variable or AWS Secrets Manager
+max_search_results = 10
+cache_ttl_hours = 24

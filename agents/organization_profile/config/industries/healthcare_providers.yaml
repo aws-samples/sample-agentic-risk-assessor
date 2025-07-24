@@ -1,0 +1,139 @@
+# Healthcare Providers Industry Configuration
+
+industry: "Healthcare Providers"
+
+# Additional industry-specific fields
+additional_fields:
+  - name: "phi_handling"
+    type: "choice"
+    required: true
+    question: "Do you handle Protected Health Information (PHI)?"
+    options:
+      - value: "covered_entity"
+        label: "Yes - Covered Entity"
+      - value: "business_associate"
+        label: "Yes - Business Associate"
+      - value: "no"
+        label: "No"
+    document_extraction:
+      enabled: true
+      keywords: ["PHI", "protected health information", "HIPAA", "covered entity"]
+      confidence_threshold: 0.90
+      
+  - name: "healthcare_data_types"
+    type: "multi_select"
+    required: true
+    question: "What types of healthcare data do you process?"
+    options:
+      - "Electronic Health Records (EHR)"
+      - "Patient Records"
+      - "Medical Imaging (DICOM)"
+      - "Billing Information"
+      - "Research Data"
+      - "Prescription Data"
+      - "Lab Results"
+    document_extraction:
+      enabled: true
+      keywords: ["EHR", "patient records", "medical imaging", "DICOM"]
+      confidence_threshold: 0.85
+      
+  - name: "hipaa_compliance_status"
+    type: "choice"
+    required: true
+    question: "What is your HIPAA compliance status?"
+    options:
+      - "Fully Compliant"
+      - "In Progress"
+      - "Not Applicable"
+    document_extraction:
+      enabled: true
+      keywords: ["HIPAA compliance", "HIPAA status"]
+      confidence_threshold: 0.90
+      
+  - name: "medical_devices"
+    type: "boolean"
+    required: false
+    question: "Do you manage connected medical devices?"
+    document_extraction:
+      enabled: true
+      keywords: ["medical devices", "IoMT", "connected devices"]
+      confidence_threshold: 0.80
+      
+  - name: "patient_portal"
+    type: "boolean"
+    required: false
+    question: "Do you provide a patient portal?"
+    document_extraction:
+      enabled: true
+      keywords: ["patient portal", "patient access"]
+      confidence_threshold: 0.85
+
+# Contextual questions for sub-industries
+contextual_questions:
+  hospital:
+    trigger_keywords: ["hospital", "inpatient", "emergency"]
+    questions:
+      - name: "emergency_services"
+        question: "Do you provide emergency services?"
+      - name: "surgical_services"
+        question: "Do you perform surgical procedures?"
+        
+  clinic:
+    trigger_keywords: ["clinic", "outpatient", "ambulatory"]
+    questions:
+      - name: "specialty_services"
+        question: "What specialty services do you provide?"
+        
+  telehealth:
+    trigger_keywords: ["telehealth", "telemedicine", "virtual"]
+    questions:
+      - name: "telehealth_platform"
+        question: "What telehealth platform do you use?"
+      - name: "telehealth_security"
+        question: "How do you secure telehealth sessions?"
+
+# Industry-specific regulations
+regulations:
+  - name: "HIPAA"
+    description: "Health Insurance Portability and Accountability Act"
+    applicability: "All healthcare providers handling PHI"
+    
+  - name: "HITECH Act"
+    description: "Health Information Technology for Economic and Clinical Health Act"
+    applicability: "Healthcare providers using EHR systems"
+    
+  - name: "FDA 21 CFR Part 11"
+    description: "Electronic Records and Electronic Signatures"
+    applicability: "Healthcare providers involved in clinical trials"
+    
+  - name: "State Privacy Laws"
+    description: "State-specific healthcare privacy requirements"
+    applicability: "Varies by state"
+
+# MCP search queries for this industry
+mcp_search_queries:
+  - query: "HIPAA security requirements healthcare providers"
+    use_for: ["regulatory_compliance", "security_controls"]
+    
+  - query: "healthcare cybersecurity threats 2025"
+    use_for: ["threat_landscape", "risk_assessment"]
+    
+  - query: "medical device security best practices"
+    use_for: ["technology_environment", "security_controls"]
+    
+  - query: "patient data protection standards"
+    use_for: ["data_protection", "compliance"]
+
+# Common security tools in this industry
+common_tools:
+  - category: "Data Protection"
+    tools: ["Encryption solutions", "DLP for healthcare", "Secure messaging"]
+    
+  - category: "Access Control"
+    tools: ["Healthcare IAM", "Single Sign-On", "Privileged Access Management"]
+    
+  - category: "Compliance"
+    tools: ["HIPAA compliance software", "Audit logging", "Risk assessment tools"]
+    
+  - category: "Network Security"
+    tools: ["Healthcare firewalls", "Network segmentation", "Medical device security"]

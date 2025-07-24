@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fsi_demo_risk_assessment_prompt>
+    <title>FSI Demo Risk Assessment Prompt</title>
+    
+    <introduction>
+        <text>For project {project_id}, conduct a DEMO FSI risk assessment with token limits for fast completion (~1 minute). Follow this streamlined workflow:</text>
+    </introduction>
+    
+    <demo_constraints>
+        <constraint>Maximum 500 tokens per A2A message</constraint>
+        <constraint>Maximum 3 risk scenarios total</constraint>
+        <constraint>Skip detailed evidence collection</constraint>
+        <constraint>Use simplified risk scoring (High/Medium/Low only)</constraint>
+        <constraint>Complete assessment in under 60 seconds</constraint>
+    </demo_constraints>
+    
+    <workflow>
+        <step number="0" mandatory="true">
+            <title>AGENT DISCOVERY (REQUIRED FIRST STEP)</title>
+            <description>ALWAYS perform agent discovery BEFORE starting any assessment workflow</description>
+            <abort_conditions critical="true">
+                <condition>If Architect Agent is NOT available - ABORT assessment immediately</condition>
+                <condition>If Security Architect Agent is NOT available - ABORT assessment immediately</condition>
+                <abort_message>Cannot proceed with demo risk assessment. Required agents are not available.</abort_message>
+            </abort_conditions>
+        </step>
+        
+        <step number="1">
+            <title>READ ORGANIZATION PROFILE</title>
+            <description>Call get_org_profile with project_id to get org context (frameworks, risk appetite, crown jewels). Use to calibrate scores.</description>
+        </step>
+
+        <step number="2">
+            <title>GATHER DEMO INFORMATION (TOKEN LIMITED)</title>
+            <description>Use A2A communication with strict token limits:</description>
+            <messages>
+                <message target="architect_agent">
+                    <title>Demo Message to Architect Agent (MAX 100 tokens):</title>
+                    <content>For project {project_id}, share top 3 architecture issues from existing assessment. If none exists, create brief assessment with 3 key issues only. Keep response under 100 tokens.</content>
+                </message>
+                <message target="security_architect_agent">
+                    <title>Demo Message to Security Architect Agent (MAX 100 tokens):</title>
+                    <content>For project {project_id}, share top 3 security issues from existing assessment. If none exists, create brief assessment with 3 key security gaps only. Keep response under 100 tokens.</content>
+                </message>
+
+            </messages>
+        </step>
+        
+        <step number="2">
+            <title>CONDUCT DEMO FSI RISK ASSESSMENT</title>
+            <description>Create a simplified FSI risk assessment with these constraints:</description>
+            
+            <demo_requirements>
+                <requirement>Use SAME FSI template structure as full assessment</requirement>
+                <requirement>Generate exactly 3 risk scenarios maximum</requirement>
+                <requirement>Include visual risk matrices for each scenario (full 5x5 like original)</requirement>
+                <requirement>Use same FSI risk categories and scoring methodology</requirement>
+                <requirement>Keep content brief but maintain professional FSI format</requirement>
+                <requirement>Include all standard FSI sections but with condensed content</requirement>
+                <requirement>Maximum 1500 tokens total for entire assessment</requirement>
+            </demo_requirements>
+            
+            <template_reference>
+                <text>Follow the Demo FSI Risk Framework Template structure below:</text>
+                <placeholder>{fsi_demo_template}</placeholder>
+            </template_reference>
+        </step>
+        
+        <step number="3">
+            <title>DEMO VALIDATION</title>
+            <description>Send completed demo assessment to auditor for validation</description>
+            <action>Send message to auditor_agent: "This is a DEMO FSI risk assessment for project {project_id}. Please validate using demo criteria (3 risks max, simplified format, under 1500 tokens). Here is the assessment content: [INCLUDE FULL ASSESSMENT TEXT]"</action>
+        </step>
+        
+        <step number="4">
+            <title>SAVE AND COMPLETE</title>
+            <description>Save the demo assessment and complete workflow</description>
+            <action>Call save_risk_assessment with demo assessment content</action>
+        </step>
+    </workflow>
+    
+    <output_format_requirements>
+        <requirement>Generate MARKDOWN format only</requirement>
+        <requirement>Maximum 3 risk scenarios</requirement>
+        <requirement>Simplified risk matrix (3x3 instead of 5x5)</requirement>
+        <requirement>Executive summary with key findings only</requirement>
+        <requirement>Skip detailed technical evidence sections</requirement>
+    </output_format_requirements>
+</fsi_demo_risk_assessment_prompt>

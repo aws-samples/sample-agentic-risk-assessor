@@ -1,0 +1,16 @@
+agents:
+  orchestrator:
+    url: "${AGENTS_ALB_URL}/orchestrator"
+    description: "Coordinates complete risk assessment workflow"
+  architect:
+    url: "${AGENTS_ALB_URL}/architect"
+    description: "Analyzes architecture diagrams and categorizes AWS components"
+  risk_framework:
+    url: "${AGENTS_ALB_URL}/risk-framework"
+    description: "Maps security frameworks to AWS services"
+  security_architect:
+    url: "${AGENTS_ALB_URL}/security-architect"
+    description: "Assigns controls to nodes with sequential processing"
+  risk_assessment:
+    url: "${AGENTS_ALB_URL}/risk-assessment"
+    description: "Analyzes control coverage and calculates risk scores"

@@ -1,0 +1,262 @@
+.diagramAnalysisContainer {
+  width: 100%;
+  margin: 20px 0;
+}
+
+.compact {
+  margin: 10px 0;
+}
+
+.compact .tableSection {
+  margin-bottom: 15px;
+}
+
+.compact .analysisTable th,
+.compact .analysisTable td {
+  padding: 4px 8px;
+  font-size: 0.9rem;
+}
+
+.compact .controlsList {
+  max-height: 100px;
+}
+
+.compact .controlItem {
+  margin-bottom: 4px;
+  padding: 2px;
+  font-size: 0.8em;
+}
+
+.tableSection {
+  margin-bottom: 30px;
+}
+
+.tableSection h3 {
+  margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+.analysisTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+.analysisTable th,
+.analysisTable td {
+  border: 1px solid var(--border, #3d4852);
+  padding: 8px 12px;
+  text-align: left;
+  color: var(--text, #ecf0f1);
+}
+
+.analysisTable th {
+  background-color: var(--primary, #2c3e50);
+  font-weight: 600;
+  color: var(--secondary, #1abc9c);
+}
+
+.analysisTable tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.analysisTable tr:hover {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.actionButtons {
+  width: 50px;
+  text-align: center;
+}
+
+.actionButtons button {
+  padding: 3px 8px;
+  background-color: var(--primary-light, #34495e);
+  border: 1px solid var(--border, #3d4852);
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--text, #ecf0f1);
+}
+
+.actionButtons button:hover {
+  background-color: var(--secondary, #1abc9c);
+  color: var(--primary, #2c3e50);
+}
+
+.addButton {
+  padding: 8px 16px;
+  background-color: var(--secondary, #1abc9c);
+  color: var(--primary, #2c3e50);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.addButton:hover {
+  background-color: var(--secondary-hover, #16a085);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.analysisTable input,
+.analysisTable select {
+  width: 100%;
+  padding: 5px;
+  background-color: rgba(0,0,0,0.2);
+  border: 1px solid var(--border, #3d4852);
+  border-radius: 3px;
+  color: var(--text, #ecf0f1);
+}
+
+.analysisTable input:focus,
+.analysisTable select:focus {
+  border-color: var(--secondary, #1abc9c);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(26, 188, 156, 0.2);
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+}
+
+.analyzeButton {
+  padding: 10px 20px;
+  background-color: var(--secondary, #1abc9c);
+  color: var(--primary, #2c3e50);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  transition: all 0.3s;
+}
+
+.analyzeButton:hover {
+  background-color: var(--secondary-hover, #16a085);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.analyzeButton:disabled {
+  background-color: rgba(0,0,0,0.3);
+  color: var(--text-light, #bdc3c7);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.controlsList {
+  max-width: 300px;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.controlItem {
+  margin-bottom: 8px;
+  padding: 4px;
+  border-left: 3px solid var(--secondary, #1abc9c);
+  background-color: rgba(0, 0, 0, 0.2);
+  font-size: 0.85em;
+}
+
+.controlItem strong {
+  color: var(--secondary, #1abc9c);
+}
+
+.controlItem small {
+  color: var(--text-light, #bdc3c7);
+  font-style: italic;
+}
+
+.noControls {
+  color: var(--text-light, #bdc3c7);
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+.nodeId {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8em;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: var(--secondary, #1abc9c);
+}
+
+.dropdownContainer {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownButton {
+  background-color: var(--primary-light, #34495e);
+  border: 1px solid var(--border, #3d4852);
+  border-radius: 4px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--text, #ecf0f1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.dropdownButton:hover {
+  background-color: var(--secondary, #1abc9c);
+  color: var(--primary, #2c3e50);
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: var(--primary, #2c3e50);
+  border: 1px solid var(--border, #3d4852);
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  z-index: 1000;
+  min-width: 120px;
+}
+
+.dropdownMenu button {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  color: var(--text, #ecf0f1);
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.dropdownMenu button:hover {
+  background-color: var(--secondary, #1abc9c);
+  color: var(--primary, #2c3e50);
+}
+
+.dropdownMenu button:first-child {
+  border-radius: 4px 4px 0 0;
+}
+
+.dropdownMenu button:last-child {
+  border-radius: 0 0 4px 4px;
+}
+
+.moreControls {
+  color: var(--text-light, #bdc3c7);
+  font-size: 0.8em;
+  font-style: italic;
+  margin-top: 4px;
+}

@@ -1,0 +1,21 @@
+# A2A Agent Discovery Configuration
+# This file should be updated with account-specific URLs after deployment
+
+# Production URLs (from Terraform outputs)
+agents:
+  architect:
+    url: "${AGENTS_ALB_URL}/architect"
+    description: "Analyzes architecture diagrams and categorizes AWS components"
+  security_architect:
+    url: "${AGENTS_ALB_URL}/security-architect"
+    description: "Assigns controls to nodes"
+  risk_assessment:
+    url: "${AGENTS_ALB_URL}/risk-assessment"
+    description: "Analyzes control coverage and calculates risk scores"
+  auditor:
+    url: "${AGENTS_ALB_URL}/auditor"
+    description: "Audit trail and compliance verification"
+  organization_profile:
+    url: "${AGENTS_ALB_URL}/organization-profile"
+    description: "Creates and manages organization profiles for tailored control mapping"
+

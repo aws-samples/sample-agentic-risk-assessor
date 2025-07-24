@@ -1,0 +1,22 @@
+# Default Industry Configuration
+# Used when specific industry config is not available
+
+industry: "General"
+
+# Generic regulations applicable to most industries
+regulations:
+  - name: "ISO 27001"
+    description: "Information Security Management"
+    applicable_to: ["all"]
+    
+  - name: "SOC 2"
+    description: "Service Organization Control 2"
+    applicable_to: ["service providers"]
+
+# Generic MCP search queries
+mcp_search_queries:
+  - type: "industry_standards"
+    query: "information security standards {region}"
+    
+  - type: "security_best_practices"
+    query: "cybersecurity best practices {industry}"

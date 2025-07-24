@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fsi_risk_assessment_prompt>
+    <title>FSI Risk Assessment Prompt</title>
+    
+    <introduction>
+        <text>For project {project_id}, conduct a comprehensive FSI risk assessment following the FSI Risk Framework Template structure. Follow this exact workflow:</text>
+    </introduction>
+    
+    <workflow>
+        <step number="0" mandatory="true">
+            <title>AGENT DISCOVERY (REQUIRED FIRST STEP)</title>
+            <description>ALWAYS perform agent discovery BEFORE starting any assessment workflow:</description>
+            <requirements>
+                <requirement>Use the built-in agent discovery tool to identify available agents</requirement>
+                <requirement>Verify connectivity to Architect Agent, Security Architect Agent, and Auditor Agent</requirement>
+                <requirement>Only proceed with assessment after confirming agent availability</requirement>
+            </requirements>
+            <abort_conditions critical="true">
+                <condition>If Architect Agent is NOT available - ABORT assessment immediately</condition>
+                <condition>If Security Architect Agent is NOT available - ABORT assessment immediately</condition>
+                <abort_message>Cannot proceed with risk assessment. Required agents (Architect and/or Security Architect) are not available. Please ensure all agents are running before attempting risk assessment.</abort_message>
+            </abort_conditions>
+        </step>
+        
+        <step number="1">
+            <title>READ ORGANIZATION PROFILE</title>
+            <description>Read the organization profile to understand the context for this assessment:</description>
+            <requirements>
+                <requirement>Call get_org_profile tool with the project_id to retrieve the linked organization profile</requirement>
+                <requirement>Note the organization's: industry, size, jurisdictions, compliance frameworks, risk appetite, crown jewels, security maturity, threat landscape, and key vendors</requirement>
+                <requirement>Use this context throughout the assessment to calibrate risk scores, identify relevant frameworks, and prioritize findings based on crown jewels and business processes</requirement>
+            </requirements>
+            <note>If no profile is linked, proceed with generic FSI assumptions but note this limitation in the report.</note>
+        </step>
+
+        <step number="2">
+            <title>GATHER INFORMATION</title>
+            <description>After confirming agent availability, use your A2A communication tools to gather required information:</description>
+            <messages>
+                <message target="architect_agent">
+                    <title>Message to Architect Agent:</title>
+                    <requirement>Use only actual Architecture Agent findings</requirement>
+                    <content>For project {project_id}, perform a fresh architecture assessment. Analyze the architecture diagram, identify all components, data flows, and architecture issues. Return the full review content to me directly. Do not ask follow-up questions.</content>
+                </message>
+                <message target="security_architect_agent">
+                    <title>Message to Security Architect Agent:</title>
+                    <requirement>Use only actual Security Agent findings</requirement>
+                    <content>For project {project_id}, perform a fresh security assessment. Identify all security issues, vulnerabilities, control gaps, and compliance concerns. Return the full assessment content to me directly. Do not ask follow-up questions.</content>
+                </message>
+                <message target="auditor_agent">
+                    <title>Message to Auditor Agent (use invoke_agent tool):</title>
+                    <content>For project {project_id}, perform a final audit of the completed risk assessment. Review the assessment for completeness, accuracy, and compliance with FSI framework requirements. Provide audit findings and recommendations.</content>
+                </message>
+            </messages>
+        </step>
+        
+        <step number="1.5" mandatory="true">
+            <title>EVIDENCE VALIDATION (MANDATORY)</title>
+            <description>Before proceeding to Step 2, you MUST validate the evidence collected:</description>
+            <validation_requirements>
+                <requirement>✅ Confirm Architecture Agent provided actual findings (not just "no issues")</requirement>
+                <requirement>✅ Confirm Security Architect Agent provided specific vulnerabilities/gaps</requirement>
+                <requirement>✅ Validate evidence completeness before risk scoring</requirement>
+                <requirement>✅ Apply risk calibration based on findings severity</requirement>
+            </validation_requirements>
+            <risk_calibration_matrix mandatory="true">
+                <calibration level="minimal_findings">Low-Medium risk profile (0-1 High risks maximum)</calibration>
+                <calibration level="moderate_findings">Medium risk profile (1-2 High risks maximum)</calibration>
+                <calibration level="significant_findings">High risk profile (2+ High risks)</calibration>
+                <calibration level="critical_findings">Critical risk profile (1+ Critical risks)</calibration>
+            </risk_calibration_matrix>
+            <evidence_alignment_requirements>
+                <requirement>Each HIGH/CRITICAL risk MUST cite specific Architecture/Security findings</requirement>
+                <requirement>Risk scenarios MUST match actual project conditions (not theoretical)</requirement>
+                <requirement>Business impact MUST align with demonstrated gaps</requirement>
+            </evidence_alignment_requirements>
+        </step>
+        
+        <step number="2">
+            <title>CONDUCT FSI RISK ASSESSMENT</title>
+            <description>Using the information gathered above, create a comprehensive FSI risk assessment report following these requirements:</description>
+            
+            <critical_requirements>
+                <requirement>generate risk assessments based actual evidence from our technical assessment agents</requirement>
+                <requirement>CONDUCT ACTUAL FSI RISK ANALYSIS - analyze the gathered data and create comprehensive risk assessment</requirement>
+                <requirement>Map all identified risks to the 8 FSI business risk categories</requirement>
+                <requirement>Apply 5x5 risk matrix scoring (likelihood × impact)</requirement>
+                <requirement>Evaluate control effectiveness (E/PE/I/NI)</requirement>
+                <requirement>Calculate residual risk ratings and tolerance levels</requirement>
+                <requirement>Include specific risk scenarios, mitigation strategies, and recommendations</requirement>
+                <requirement>NEVER just save empty templates - always perform actual risk analysis first</requirement>
+                <requirement>SEPARATE risks into two categories in the report:
+                    1. SOLUTION-INTRODUCED RISKS — new risks created by THIS architecture/design (e.g., missing WAF, static credentials in new services, no DLQ). These are what the project team must fix.
+                    2. INHERITED ENTERPRISE RISKS — pre-existing organizational risks from the org profile that affect this solution (e.g., existing audit findings, known gaps in IR drills, service account rotation backlog). These are context for scoring but owned by the enterprise, not this project.
+                    Present them in separate sections in the summary and clearly label each risk with [SOLUTION] or [ENTERPRISE] in the risk table.</requirement>
+                <requirement>FACTUAL REMEDIATION TIMELINES — do NOT invent arbitrary timelines (e.g., "0-30 days"). Instead:
+                    1. Use the organization's patch SLA from the org profile to set severity-based timelines (e.g., if org says critical=4hrs, high=30 days, use those)
+                    2. For risks that overlap with existing audit findings, reference the existing due dates from the org profile
+                    3. Use effort ratings from the security/architecture assessment (LOW=days, MEDIUM=weeks, HIGH=months) calibrated against the org's change velocity (deploys/week)
+                    4. Reference the org's change velocity to estimate realistic deployment timelines (e.g., "35-45 deploys/week means LOW effort fixes can ship within 1 sprint")
+                    5. If a timeline cannot be grounded in org data, state "Timeline TBD — requires project team estimation" rather than guessing</requirement>
+            </critical_requirements>
+            
+            <quality_standards mandatory="true" note="Prevents W40-type Issues">
+                <risk_count_consistency critical="true">
+                    <rule>Executive Summary total MUST equal detailed scenarios count</rule>
+                    <rule>Executive Summary total MUST equal risk matrix rows</rule>
+                    <rule>Detailed scenarios count MUST equal risk matrix rows</rule>
+                    <example>If you identify 9 risks, you MUST have 9 detailed scenarios AND 9 matrix rows</example>
+                </risk_count_consistency>
+                
+                <complete_risk_scenarios mandatory="true">
+                    <description>Every identified risk MUST include ALL of these elements:</description>
+                    <elements>
+                        <element>Risk Categories - Primary and secondary FSI categories</element>
+                        <element>Business Description - Executive-level impact description</element>
+                        <element>Technical Evidence - Exactly ONE paragraph with specific technical findings</element>
+                        <element>Risk Assessment Matrix - Visual 5x5 matrix with highlighted cell</element>
+                        <element>Business Impact Analysis - Likelihood, impact, financial/operational/regulatory impacts</element>
+                        <element>Risk Management Strategy - Controls, effectiveness, actions, owner, timeline</element>
+                    </elements>
+                </complete_risk_scenarios>
+                
+                <business_language_requirements>
+                    <executive_sections>Use business terms ("revenue loss", "operational disruption", "regulatory fines")</executive_sections>
+                    <avoid_technical_jargon>Replace "VPC" with "network infrastructure", "ECS" with "application services"</avoid_technical_jargon>
+                    <quantify_impact>Include dollar amounts, timeframes, customer numbers</quantify_impact>
+                    <strategic_focus>Competitive advantage, market position, stakeholder confidence</strategic_focus>
+                </business_language_requirements>
+                
+                <technical_evidence_requirements>
+                    <description>For each risk scenario, include exactly one paragraph:</description>
+                    <format>
+                        <text>**Technical Evidence:**</text>
+                        <text>[One paragraph with specific technical findings, architecture gaps, security vulnerabilities, or compliance deficiencies that support this business risk. Include component names, configuration issues, or missing controls.]</text>
+                    </format>
+                </technical_evidence_requirements>
+            </quality_standards>
+            
+            <template_reference>
+                <text>Follow the FSI Risk Framework Template structure below:</text>
+                <placeholder>{fsi_template}</placeholder>
+            </template_reference>
+        </step>
+        
+        <step number="3">
+            <title>AUDIT REVIEW</title>
+            <description>After completing and saving the risk assessment, automatically send the final report to the Auditor Agent for review using your A2A communication tools:</description>
+            
+            <mandatory_action>
+                <tool>invoke_agent</tool>
+                <target>auditor</target>
+                <message>Please audit this completed FSI risk assessment for project {project_id}. Retrieve findings from Architect Agent and Security Architect Agent and cross reference with risks, only allow risks which can cross referenced and are evidence based. Review for completeness, accuracy, and compliance with FSI framework standards. The assessment has been saved and is ready for your final review.</message>
+            </mandatory_action>
+            <post_audit_action>
+                After receiving the Auditor's response, append an "Audit Summary" section to the end of your assessment output that includes:
+                - Auditor verdict (APPROVED / CONDITIONAL / REJECTED)
+                - Key findings from the audit
+                - Any risks that were flagged as lacking evidence or traceability
+                - Validation status of risk categorization, timelines, and framework citations
+                Present this to the user as part of the final assessment output.
+            </post_audit_action>
+        </step>
+    </workflow>
+    
+    <output_format_requirements>
+        <critical_note>You MUST generate the report in MARKDOWN format using the EXACT template structure above. DO NOT generate HTML, DO NOT create your own format.</critical_note>
+        
+        <mandatory_requirements>
+            <requirement number="1">Use EXACT template structure - Follow every section, heading, and format from the FSI Risk Framework Template above</requirement>
+            <requirement number="2">Generate MARKDOWN only - No HTML, no custom styling, pure markdown</requirement>
+            <requirement number="3">Replace ALL placeholders - Fill in [PROJECT_NAME], [CURRENT_DATE], [RISK_NAME], etc. with actual data</requirement>
+            <requirement number="4">Include ALL sections - Every section from Table of Contents through Recommendations must be present</requirement>
+            <requirement number="5">Follow exact numbering - Use the same section numbers (1. Business Risk Categories, 2. Risk Matrix, etc.)</requirement>
+            <requirement number="6">Use template tables - Keep the exact table structures for likelihood, impact, risk matrix, etc.</requirement>
+            <requirement number="7">Fill risk scenarios - Replace example scenarios with actual project-specific risks</requirement>
+            <requirement number="8">Include visual risk matrices - For each risk scenario, include the HTML-styled 5x5 risk matrix table with color coding</requirement>
+        </mandatory_requirements>
+        
+        <risk_calibration_framework>
+            <minimal_findings>Low-Medium risk profile (0-1 High risks maximum)</minimal_findings>
+            <moderate_findings>Medium risk profile (1-2 High risks maximum)</moderate_findings>
+            <significant_findings>High risk profile (2+ High risks)</significant_findings>
+            <critical_findings>Critical risk profile (1+ Critical risks)</critical_findings>
+        </risk_calibration_framework>
+
+
+        <risk_matrix_colors>
+            <color level="low" hex="#4caf50" scores="1-6">Green</color>
+            <color level="medium" hex="#ffeb3b" scores="7-11">Yellow</color>
+            <color level="high" hex="#ff9800" scores="12-19">Orange</color>
+            <color level="critical" hex="#f44336" scores="20-25">Red</color>
+            <note>Bold border and highlight the specific cell where the risk falls based on its likelihood and impact ratings</note>
+        </risk_matrix_colors>
+        
+        <template_compliance_check>
+            <check>✅ Starts with "# FSI Risk Assessment Report"</check>
+            <check>✅ Has Table of Contents with exact links</check>
+            <check>✅ Includes all 13 numbered sections</check>
+            <check>✅ Uses markdown tables (not HTML)</check>
+            <check>✅ Ends with footer format from template</check>
+        </template_compliance_check>
+        
+        <critical_action>
+            <description>After generating the complete assessment following the EXACT template format, you MUST call save_risk_assessment with these exact parameters:</description>
+            <parameters>
+                <parameter name="project_id">{project_id}</parameter>
+                <parameter name="assessment_content">[the complete FSI risk assessment report you just generated in EXACT template format]</parameter>
+            </parameters>
+            <final_step>Then present the complete FSI Risk Assessment Report to the user for review.</final_step>
+        </critical_action>
+    </output_format_requirements>
+</fsi_risk_assessment_prompt>

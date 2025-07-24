@@ -1,0 +1,104 @@
+.markdown-content :global(h1) {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #ff6b35;
+    border-bottom: 2px solid #ff6b35;
+    padding-bottom: 0.25rem;
+}
+.markdown-content :global(h2) {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #ff6b35;
+    border-bottom: 1px solid #ff6b35;
+    padding-bottom: 0.25rem;
+}
+.markdown-content :global(h3) {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: #ff6b35;
+}
+.markdown-content :global(h4) {
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 0.8rem;
+    margin-bottom: 0.4rem;
+    color: #333;
+}
+.markdown-content :global(p) {
+    margin-bottom: 0.8rem;
+}
+.markdown-content :global(ul),
+.markdown-content :global(ol) {
+    margin-bottom: 0.8rem;
+    padding-left: 1.5rem;
+}
+.markdown-content :global(li) {
+    margin-bottom: 0.3rem;
+}
+.markdown-content :global(strong) {
+    font-weight: bold;
+    color: #333;
+}
+.markdown-content :global(em) {
+    font-style: italic;
+}
+.markdown-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+}
+.markdown-content :global(th) {
+    background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+    color: #ffffff;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+    border: none;
+}
+.markdown-content :global(td) {
+    padding: 12px 16px;
+    border-bottom: 1px solid #f3f4f6;
+    background-color: #ffffff;
+    font-size: 14px;
+    color: #374151;
+    vertical-align: top;
+    line-height: 1.5;
+}
+.markdown-content :global(tbody tr:hover) {
+    background-color: #f9fafb;
+}
+.markdown-content :global(tbody tr:last-child td) {
+    border-bottom: none;
+}
+.markdown-content :global(code) {
+    background-color: #e8e8e8;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+.markdown-content :global(pre) {
+    background-color: #e8e8e8;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow: auto;
+    margin-bottom: 0.8rem;
+}
+.markdown-content :global(hr) {
+    border: none;
+    border-top: 2px solid #ff6b35;
+    margin: 2rem 0;
+}

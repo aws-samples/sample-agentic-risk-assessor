@@ -1,0 +1,327 @@
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
+.breadcrumbLink {
+  background: none;
+  border: none;
+  color: var(--secondary, #1abc9c);
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: inherit;
+}
+
+.breadcrumbLink:hover {
+  color: var(--secondary-hover, #16a085);
+}
+
+.breadcrumbSeparator {
+  margin: 0 8px;
+  color: var(--text-light, #bdc3c7);
+}
+
+.breadcrumbCurrent {
+  color: var(--text, #ecf0f1);
+}
+
+.nodeDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.nodeInfo {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border, #3d4852);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.nodeInfo h2 {
+  margin-bottom: 15px;
+  color: var(--secondary, #1abc9c);
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.infoItem label {
+  font-weight: 600;
+  color: var(--text-light, #bdc3c7);
+  font-size: 0.9rem;
+}
+
+.infoItem span {
+  color: var(--text, #ecf0f1);
+}
+
+.nodeId {
+  font-family: 'Courier New', monospace;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: var(--secondary, #1abc9c);
+  font-size: 0.9rem;
+}
+
+.nodeType {
+  background-color: var(--primary-light, #34495e);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  display: inline-block;
+}
+
+.status {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.status.completed {
+  background-color: #27ae60;
+  color: white;
+}
+
+.status.processing {
+  background-color: #f39c12;
+  color: white;
+}
+
+.status.failed {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.controlsSection {
+  background-color: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border, #3d4852);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.controlsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.controlsHeader h2 {
+  color: var(--secondary, #1abc9c);
+  margin: 0;
+}
+
+.filterContainer {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filterSelect {
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border, #3d4852);
+  border-radius: 4px;
+  color: var(--text, #ecf0f1);
+  font-size: 0.9rem;
+}
+
+.filterSelect:focus {
+  border-color: var(--secondary, #1abc9c);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(26, 188, 156, 0.2);
+}
+
+.controlsList {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.controlCard {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border, #3d4852);
+  border-radius: 8px;
+  padding: 20px;
+  transition: all 0.2s;
+}
+
+.controlCard:hover {
+  border-color: var(--secondary, #1abc9c);
+  box-shadow: 0 2px 8px rgba(26, 188, 156, 0.1);
+}
+
+.controlHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.controlTitle {
+  flex: 1;
+}
+
+.controlId {
+  color: var(--secondary, #1abc9c);
+  font-family: 'Courier New', monospace;
+  font-size: 0.9rem;
+  background-color: rgba(26, 188, 156, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.controlName {
+  margin: 5px 0 0 0;
+  color: var(--text, #ecf0f1);
+  font-size: 1.1rem;
+}
+
+.controlBadges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.categoryBadge, .priorityBadge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.categoryBadge {
+  background-color: var(--primary-light, #34495e);
+  color: var(--text, #ecf0f1);
+}
+
+.priorityBadge.baseline {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.priorityBadge.optional {
+  background-color: #95a5a6;
+  color: white;
+}
+
+.identity {
+  background-color: #9b59b6 !important;
+  color: white !important;
+}
+
+.infrastructure {
+  background-color: #3498db !important;
+  color: white !important;
+}
+
+.data {
+  background-color: #e67e22 !important;
+  color: white !important;
+}
+
+.logging {
+  background-color: #f39c12 !important;
+  color: white !important;
+}
+
+.incident {
+  background-color: #e74c3c !important;
+  color: white !important;
+}
+
+.application {
+  background-color: #27ae60 !important;
+  color: white !important;
+}
+
+.controlContent {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.controlDescription,
+.controlGuidance,
+.controlAssessment {
+  border-left: 3px solid var(--secondary, #1abc9c);
+  padding-left: 15px;
+}
+
+.controlDescription h4,
+.controlGuidance h4,
+.controlAssessment h4 {
+  margin: 0 0 8px 0;
+  color: var(--secondary, #1abc9c);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.controlDescription p,
+.controlGuidance p,
+.controlAssessment p {
+  margin: 0;
+  color: var(--text, #ecf0f1);
+  line-height: 1.5;
+}
+
+.noControls {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-light, #bdc3c7);
+  font-style: italic;
+}
+
+.noControls p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .controlsHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filterContainer {
+    justify-content: stretch;
+  }
+  
+  .filterSelect {
+    flex: 1;
+  }
+  
+  .controlHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .controlBadges {
+    justify-content: flex-start;
+  }
+  
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+}

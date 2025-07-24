@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>{{SERVICE}} — {{FRAMEWORK}} Control Reference</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:#f5f5f5;color:#333;height:100vh;overflow:hidden}
+  .layout{display:flex;height:100vh}
+  .toc{width:300px;min-width:300px;background:#fff;border-right:1px solid #e0e0e0;display:flex;flex-direction:column}
+  .toc-header{padding:16px 20px;border-bottom:1px solid #e0e0e0}
+  .toc-header h1{font-size:14px;color:#ff6b35;font-weight:700}
+  .toc-header .sub{font-size:11px;color:#888;margin-top:4px}
+  .toc-header .stats{display:flex;gap:12px;margin-top:8px;font-size:11px;color:#666}
+  .toc-search{padding:8px 12px;border-bottom:1px solid #e0e0e0}
+  .toc-search input{width:100%;padding:6px 10px;background:#fafafa;border:1px solid #ddd;border-radius:4px;color:#333;font-size:12px;outline:none}
+  .toc-search input:focus{border-color:#ff6b35}
+  .toc-families{flex:1;overflow-y:auto;padding:6px}
+  .family-label{padding:6px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#ff6b35;cursor:pointer;display:flex;justify-content:space-between;border-radius:4px}
+  .family-label:hover{background:#fafafa}
+  .family-label .count{font-size:9px;color:#aaa;font-weight:400}
+  .family-controls{padding-left:8px}
+  .toc-item{padding:4px 12px;font-size:11px;color:#888;cursor:pointer;border-radius:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-left:2px solid transparent}
+  .toc-item:hover{color:#333;background:#fafafa}
+  .toc-item.active{color:#333;border-left-color:#ff6b35;background:#fff5f0}
+  .toc-item .tid{color:#ff6b35;font-weight:600;margin-right:4px}
+  .detail{flex:1;overflow-y:auto;background:#fff}
+  .detail-empty{display:flex;align-items:center;justify-content:center;height:100%;color:#bbb;font-size:14px}
+  .ctrl-detail{max-width:900px;padding:28px 36px 60px}
+  .ctrl-header{margin-bottom:20px;padding-bottom:14px;border-bottom:2px solid #ff6b35}
+  .ctrl-id-title{font-size:20px;font-weight:700;color:#333}
+  .ctrl-id-title .cid{color:#ff6b35}
+  .ctrl-badges{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .cbadge{font-size:11px;padding:3px 10px;border-radius:4px;background:#f5f5f5;border:1px solid #e0e0e0}
+  .cbadge.high{background:#fde8e8;border-color:#f5c6c6;color:#d32f2f}
+  .cbadge.medium{background:#fff3e0;border-color:#ffe0b2;color:#e65100}
+  .cbadge.low{background:#e8f5e9;border-color:#c8e6c9;color:#2e7d32}
+  .cbadge .bl{color:#999;margin-right:3px}
+  .sec{margin-bottom:22px}
+  .sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#ff6b35;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid #eee}
+  .sec-body{font-size:13px;line-height:1.75;color:#444}
+  .sec-body p{margin-bottom:8px}
+  .sec-body ul,.sec-body ol{padding-left:18px;margin-bottom:8px}
+  .sec-body li{margin-bottom:3px}
+  .sec-body li p{margin:0}
+  .sec-body strong{color:#333}
+  .sec-body code{background:#f0f0f0;padding:1px 5px;border-radius:3px;font-size:12px;color:#d32f2f}
+  .sec-body pre{background:#1a1a2e;padding:14px;border-radius:6px;overflow-x:auto;margin:8px 0}
+  .sec-body pre code{background:none;padding:0;color:#7ec8e3;font-size:12px;line-height:1.6}
+  .impl-levels{display:flex;flex-direction:column}
+  .impl-lv{padding:12px 16px;border-left:3px solid #ddd}
+  .impl-lv:hover{background:#fafafa}
+  .impl-lv.basic{border-color:#2e7d32}
+  .impl-lv.managed{border-color:#1565c0}
+  .impl-lv.optimized{border-color:#7b1fa2}
+  .impl-lv.predictive{border-color:#ff6b35}
+  .impl-lv-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px}
+  .impl-lv.basic .impl-lv-label{color:#2e7d32}
+  .impl-lv.managed .impl-lv-label{color:#1565c0}
+  .impl-lv.optimized .impl-lv-label{color:#7b1fa2}
+  .impl-lv.predictive .impl-lv-label{color:#ff6b35}
+  @media print{.toc{display:none}.detail{overflow:visible}}
+  ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}
+</style>
+</head>
+<body>
+<div class="layout">
+  <div class="toc">
+    <div class="toc-header">
+      <h1>{{SERVICE}}</h1>
+      <div class="sub">{{FRAMEWORK}} — Control Reference</div>
+      <div class="stats"><span id="totalCount"></span><span id="familyCount"></span></div>
+    </div>
+    <div class="toc-search"><input type="text" id="search" placeholder="Search controls..." oninput="filterToc()"></div>
+    <div class="toc-families" id="tocList"></div>
+  </div>
+  <div class="detail" id="detailPanel"><div class="detail-empty">← Select a control</div></div>
+</div>
+<script>
+const DATA = {{CONTROL_DATA}};
+const controls = DATA.controls;
+const families = {};
+controls.forEach(c => { const f = c.id.split('-')[0]; if (!families[f]) families[f] = []; families[f].push(c); });
+document.getElementById('totalCount').textContent = '📋 ' + controls.length + ' controls';
+document.getElementById('familyCount').textContent = '📁 ' + Object.keys(families).length + ' families';
+
+function renderToc(filter) {
+  const f = (filter||'').toLowerCase();
+  let h = '';
+  Object.keys(families).sort().forEach(fam => {
+    const cs = families[fam].filter(c => !f || c.id.toLowerCase().includes(f) || (c.name||'').toLowerCase().includes(f));
+    if (!cs.length) return;
+    h += '<div class="family-group"><div class="family-label">' + fam + '<span class="count">' + cs.length + '</span></div><div class="family-controls">';
+    cs.forEach(c => { h += '<div class="toc-item" id="toc-' + c.id + '" onclick="show(\'' + c.id + '\')"><span class="tid">' + c.id + '</span>' + (c.name||'') + '</div>'; });
+    h += '</div></div>';
+  });
+  document.getElementById('tocList').innerHTML = h;
+}
+function filterToc() { renderToc(document.getElementById('search').value); }
+function norm(t) { if (!t) return ''; let s = String(t); s = s.replace(/(\S)\s+(\d+)\.\s/g, '$1\n$2. '); return s; }
+function code(t) { let s = String(t).trim(); if (!s.startsWith('```')) s = '```bash\n' + s + '\n```'; return s; }
+function show(id) {
+  const c = controls.find(x => x.id === id); if (!c) return;
+  document.querySelectorAll('.toc-item').forEach(el => el.classList.remove('active'));
+  const el = document.getElementById('toc-' + id); if (el) { el.classList.add('active'); el.scrollIntoView({block:'nearest'}); }
+  history.replaceState(null, '', '#' + id);
+  const p = (c.priority||'').toLowerCase();
+  const secs = [['REQUIREMENT',c.requirement],['DESCRIPTION',c.description],['APPROACH',c.implementation_approach],['CAPABILITIES',c.capabilities],['CLI COMMANDS',c.cli_commands?code(c.cli_commands):null],['PREREQUISITES',c.prerequisites],['CONFLICTS',c.conflicts],['AUDIT EVIDENCE',c.audit_evidence],['VALIDATION',c.validation_procedures],['AUTOMATED CHECKS',c.automated_checks],['MONITORING',c.monitoring_setup]];
+  const lvls = [['basic','Basic',c.basic_level],['managed','Managed',c.managed_level],['optimized','Optimized',c.optimized_level],['predictive','Predictive',c.predictive_level]].filter(l=>l[2]);
+  let h = '<div class="ctrl-detail"><div class="ctrl-header"><div class="ctrl-id-title"><span class="cid">' + c.id + '</span> — ' + (c.name||c.category||c.id) + '</div><div class="ctrl-badges">';
+  if (c.priority) h += '<div class="cbadge ' + p + '"><span class="bl">Priority</span>' + c.priority + '</div>';
+  if (c.criticality_score) h += '<div class="cbadge"><span class="bl">Criticality</span>' + c.criticality_score + '/10</div>';
+  if (c.complexity) h += '<div class="cbadge"><span class="bl">Complexity</span>' + c.complexity + '</div>';
+  if (c.cost_category) h += '<div class="cbadge"><span class="bl">Cost</span>' + c.cost_category + '</div>';
+  h += '</div></div>';
+  secs.forEach(([t,v]) => { if (!v||!String(v).trim()) return; h += '<div class="sec"><div class="sec-title">' + t + '</div><div class="sec-body">' + marked.parse(norm(v)) + '</div></div>'; });
+  if (lvls.length) { h += '<div class="sec"><div class="sec-title">IMPLEMENTATION LEVELS</div><div class="impl-levels">'; lvls.forEach(([cls,lbl,v]) => { h += '<div class="impl-lv ' + cls + '"><div class="impl-lv-label">● ' + lbl + '</div><div class="sec-body">' + marked.parse(norm(v)) + '</div></div>'; }); h += '</div></div>'; }
+  h += '</div>';
+  document.getElementById('detailPanel').innerHTML = h;
+}
+renderToc();
+if (location.hash) setTimeout(() => show(location.hash.slice(1)), 100);
+</script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+# Pharmaceutical Industry Configuration
+
+industry: "Pharmaceutical"
+
+# Additional industry-specific fields
+additional_fields:
+  - name: "gxp_compliance"
+    type: "multi_select"
+    required: true
+    question: "Which GxP regulations apply to your organization?"
+    options:
+      - "GMP (Good Manufacturing Practice)"
+      - "GLP (Good Laboratory Practice)"
+      - "GCP (Good Clinical Practice)"
+      - "GDP (Good Distribution Practice)"
+      - "GAMP (Good Automated Manufacturing Practice)"
+    document_extraction:
+      enabled: true
+      keywords: ["GxP", "GMP", "GLP", "GCP", "GDP", "GAMP"]
+      confidence_threshold: 0.90
+      
+  - name: "fda_regulated"
+    type: "boolean"
+    required: true
+    question: "Are you subject to FDA regulations?"
+    document_extraction:
+      enabled: true
+      keywords: ["FDA", "Food and Drug Administration", "FDA regulated"]
+      confidence_threshold: 0.95
+      
+  - name: "clinical_trials"
+    type: "boolean"
+    required: true
+    question: "Do you conduct clinical trials?"
+    document_extraction:
+      enabled: true
+      keywords: ["clinical trials", "clinical research", "clinical studies"]
+      confidence_threshold: 0.90
+      
+  - name: "manufacturing_operations"
+    type: "choice"
+    required: true
+    question: "What type of pharmaceutical manufacturing do you perform?"
+    options:
+      - value: "drug_substance"
+        label: "Drug Substance (API)"
+      - value: "drug_product"
+        label: "Drug Product (Finished Dosage)"
+      - value: "both"
+        label: "Both"
+      - value: "none"
+        label: "No Manufacturing"
+    document_extraction:
+      enabled: true
+      keywords: ["manufacturing", "API", "drug substance", "drug product"]
+      confidence_threshold: 0.85
+      
+  - name: "supply_chain_security"
+    type: "choice"
+    required: true
+    question: "What is your pharmaceutical supply chain security maturity?"
+    options:
+      - "Basic - Manual tracking"
+      - "Intermediate - Serialization implemented"
+      - "Advanced - Track and trace, blockchain"
+    document_extraction:
+      enabled: true
+      keywords: ["supply chain", "serialization", "track and trace"]
+      confidence_threshold: 0.80
+      
+  - name: "data_integrity_controls"
+    type: "multi_select"
+    required: true
+    question: "What data integrity controls do you have in place?"
+    options:
+      - "ALCOA+ Principles"
+      - "Audit Trails"
+      - "Electronic Signatures"
+      - "Data Backup and Recovery"
+      - "Change Control"
+      - "Validation Protocols"
+    document_extraction:
+      enabled: true
+      keywords: ["data integrity", "ALCOA", "audit trail", "electronic signature"]
+      confidence_threshold: 0.85
+
+# Contextual questions for sub-industries
+contextual_questions:
+  research:
+    trigger_keywords: ["research", "R&D", "discovery", "preclinical"]
+    questions:
+      - name: "research_data_management"
+        question: "How do you manage research data and intellectual property?"
+      - name: "lab_systems"
+        question: "What laboratory information management systems (LIMS) do you use?"
+        
+  manufacturing:
+    trigger_keywords: ["manufacturing", "production", "facility", "plant"]
+    questions:
+      - name: "manufacturing_systems"
+        question: "What manufacturing execution systems (MES) do you use?"
+      - name: "quality_systems"
+        question: "What quality management systems (QMS) do you use?"
+        
+  distribution:
+    trigger_keywords: ["distribution", "logistics", "supply chain"]
+    questions:
+      - name: "cold_chain"
+        question: "Do you handle temperature-sensitive products requiring cold chain?"
+      - name: "serialization_system"
+        question: "What serialization system do you use?"
+
+# Industry-specific regulations
+regulations:
+  - name: "FDA 21 CFR Part 11"
+    description: "Electronic Records and Electronic Signatures"
+    applicability: "All FDA-regulated pharmaceutical companies"
+    
+  - name: "FDA 21 CFR Part 210/211"
+    description: "Current Good Manufacturing Practice (cGMP)"
+    applicability: "Pharmaceutical manufacturers"
+    
+  - name: "ICH Guidelines"
+    description: "International Council for Harmonisation guidelines"
+    applicability: "Global pharmaceutical companies"
+    
+  - name: "DSCSA"
+    description: "Drug Supply Chain Security Act"
+    applicability: "US pharmaceutical supply chain participants"
+    
+  - name: "EU GMP Annex 11"
+    description: "Computerized Systems"
+    applicability: "EU pharmaceutical manufacturers"
+
+# MCP search queries for this industry
+mcp_search_queries:
+  - query: "FDA 21 CFR Part 11 compliance requirements"
+    use_for: ["regulatory_compliance", "data_integrity"]
+    
+  - query: "pharmaceutical cybersecurity threats"
+    use_for: ["threat_landscape", "risk_assessment"]
+    
+  - query: "GxP data integrity best practices"
+    use_for: ["data_protection", "compliance"]
+    
+  - query: "pharmaceutical supply chain security"
+    use_for: ["supply_chain", "third_party_risk"]
+
+# Common security tools in this industry
+common_tools:
+  - category: "Data Integrity"
+    tools: ["Electronic batch records", "Audit trail systems", "Electronic signature solutions"]
+    
+  - category: "Quality Systems"
+    tools: ["QMS", "LIMS", "MES", "Document management systems"]
+    
+  - category: "Compliance"
+    tools: ["Validation management", "Change control", "Deviation management"]
+    
+  - category: "Supply Chain"
+    tools: ["Serialization systems", "Track and trace", "Cold chain monitoring"]

@@ -1,0 +1,57 @@
+# Asia-Pacific Region Configuration
+
+region: "Asia-Pacific"
+
+# Region-specific regulations by country
+regulations:
+  singapore:
+    - name: "MAS TRM"
+      description: "Monetary Authority of Singapore Technology Risk Management"
+      mandatory: true
+      
+    - name: "PDPA"
+      description: "Personal Data Protection Act"
+      mandatory: true
+      
+  australia:
+    - name: "APRA CPS 234"
+      description: "Information Security Standard"
+      mandatory: true
+      
+    - name: "Privacy Act"
+      description: "Australian Privacy Principles"
+      mandatory: true
+      
+  japan:
+    - name: "APPI"
+      description: "Act on Protection of Personal Information"
+      mandatory: true
+      
+  india:
+    - name: "IT Act"
+      description: "Information Technology Act"
+      mandatory: true
+      
+  china:
+    - name: "PIPL"
+      description: "Personal Information Protection Law"
+      mandatory: true
+
+# Region-specific questions
+additional_questions:
+  - field: "data_residency"
+    question: "Does your organization have data residency requirements in APAC countries?"
+    
+  - field: "cross_border_transfers"
+    question: "Do you transfer data across APAC borders?"
+    
+  - field: "local_hosting"
+    question: "Are you required to host data locally in specific APAC countries?"
+
+# MCP search queries for this region
+mcp_search_queries:
+  - type: "regulatory_requirements"
+    query: "APAC data protection regulations {country}"
+    
+  - type: "security_best_practices"
+    query: "Asia-Pacific cybersecurity standards"

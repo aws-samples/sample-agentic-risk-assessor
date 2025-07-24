@@ -1,0 +1,364 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fsi_architecture_review>
+    <objective>
+        Review the solution architecture document for completeness, correctness, and FSI-grade rigor.
+    </objective>
+
+    <deliverable_format>
+        <description>Provide a comprehensive scored review following this exact structure:</description>
+        
+        <structure>
+            <header>
+                <title>FSI Solution Architecture Review</title>
+                <subtitle>Project Documentation Review</subtitle>
+            </header>
+
+            <executive_summary>
+                <overall_score>Overall Architecture Score: X.X/5</overall_score>
+                <assessment>Provide a brief assessment of the architecture's readiness for FSI deployment, highlighting key strengths and critical gaps.</assessment>
+            </executive_summary>
+
+            <section_analysis>
+                <section id="1">
+                    <name>Business Overview</name>
+                    <score>Score: X/5</score>
+                    <findings>
+                        <positive>✅ [Positive findings]</positive>
+                        <warning>⚠️ [Warning findings]</warning>
+                        <critical>❌ [Critical issues]</critical>
+                    </findings>
+                    <impact>[Business impact assessment]</impact>
+                    <recommendations>[Specific actionable recommendations]</recommendations>
+                </section>
+
+                <section id="2">
+                    <name>Technical Architecture</name>
+                    <score>Score: X/5 🔒</score>
+                    <critical_findings>
+                        <critical>❌ [Critical missing elements]</critical>
+                        <warning>⚠️ [Technical concerns]</warning>
+                        <positive>✅ [Strengths]</positive>
+                    </critical_findings>
+                    <impact>[Technical impact assessment]</impact>
+                    <recommendations>[Technical improvements needed]</recommendations>
+                </section>
+
+                <section id="3">
+                    <name>Component Details</name>
+                    <score>Score: X/5</score>
+                    <findings>
+                        <positive>✅ [Component strengths]</positive>
+                        <warning>⚠️ [Missing specifications]</warning>
+                        <critical>❌ [Critical gaps]</critical>
+                    </findings>
+                    <impact>[Component impact assessment]</impact>
+                    <recommendations>[Component improvements]</recommendations>
+                </section>
+
+                <section id="4">
+                    <name>Data Flow</name>
+                    <score>Score: X/5</score>
+                    <findings>
+                        <positive>✅ [Data flow strengths]</positive>
+                        <warning>⚠️ [Data governance gaps]</warning>
+                        <critical>❌ [Critical data issues]</critical>
+                    </findings>
+                    <impact>[Data flow impact]</impact>
+                    <recommendations>[Data flow improvements]</recommendations>
+                </section>
+
+                <section id="5">
+                    <name>Reliability</name>
+                    <score>Score: X/5</score>
+                    <findings>
+                        <positive>✅ [Reliability strengths]</positive>
+                        <warning>⚠️ [Reliability concerns]</warning>
+                        <critical>❌ [Reliability gaps]</critical>
+                    </findings>
+                    <impact>[Reliability impact assessment]</impact>
+                    <recommendations>[Reliability improvements]</recommendations>
+                </section>
+
+                <section id="6">
+                    <name>Performance Efficiency</name>
+                    <score>Score: X/5</score>
+                    <findings>
+                        <positive>✅ [Performance strengths]</positive>
+                        <warning>⚠️ [Performance concerns]</warning>
+                        <critical>❌ [Performance gaps]</critical>
+                    </findings>
+                    <impact>[Performance impact]</impact>
+                    <recommendations>[Performance improvements]</recommendations>
+                </section>
+
+                <section id="7">
+                    <name>Cost Optimization</name>
+                    <score>Score: X/5</score>
+                    <findings>
+                        <positive>✅ [Cost optimization strengths]</positive>
+                        <warning>⚠️ [Cost optimization concerns]</warning>
+                        <critical>❌ [Cost optimization gaps]</critical>
+                    </findings>
+                    <impact>[Cost optimization impact]</impact>
+                    <recommendations>[Cost optimization improvements]</recommendations>
+                </section>
+
+                <section id="8">
+                    <name>Sustainability</name>
+                    <score>Score: X/5</score>
+                    <findings>
+                        <positive>✅ [Sustainability strengths]</positive>
+                        <warning>⚠️ [Sustainability concerns]</warning>
+                        <critical>❌ [Sustainability gaps]</critical>
+                    </findings>
+                    <impact>[Sustainability impact]</impact>
+                    <recommendations>[Sustainability improvements]</recommendations>
+                </section>
+            </section_analysis>
+
+            <critical_architecture_gaps>
+                <title>🔒 MUST FIX for FSI Approval:</title>
+                
+                <gap>
+                    <name>Operational Excellence</name>
+                    <score>Score: X/5</score>
+                    <description>[Operational excellence gaps]</description>
+                </gap>
+
+                <gap>
+                    <name>Reliability &amp; Fault Tolerance</name>
+                    <score>Score: X/5</score>
+                    <description>[Reliability gaps]</description>
+                </gap>
+
+                <gap>
+                    <name>Performance &amp; Scalability</name>
+                    <score>Score: X/5</score>
+                    <description>[Performance gaps]</description>
+                </gap>
+
+                <gap>
+                    <name>Cost Management</name>
+                    <score>Score: X/5</score>
+                    <description>[Cost optimization gaps]</description>
+                </gap>
+            </critical_architecture_gaps>
+
+            <recommendations_for_fsi_readiness>
+                <immediate_actions>
+                    <timeframe>Critical - 0-30 days</timeframe>
+                    <actions>[Critical immediate actions]</actions>
+                </immediate_actions>
+
+                <short_term>
+                    <timeframe>30-90 days</timeframe>
+                    <actions>[Short-term improvements]</actions>
+                </short_term>
+
+                <medium_term>
+                    <timeframe>90-180 days</timeframe>
+                    <actions>[Medium-term enhancements]</actions>
+                </medium_term>
+            </recommendations_for_fsi_readiness>
+
+            <architecture_issues_summary>
+                <table>
+                    <headers>
+                        <header>Issue ID</header>
+                        <header>Category</header>
+                        <header>Issue Description</header>
+                        <header>Criticality</header>
+                        <header>Impact</header>
+                        <header>Recommendation</header>
+                    </headers>
+                    <rows>
+                        <row>
+                            <issue_id>ARCH-001</issue_id>
+                            <category>[Pillar]</category>
+                            <description>[Brief issue description]</description>
+                            <criticality>Critical/High/Medium/Low</criticality>
+                            <impact>[Impact description]</impact>
+                            <recommendation>[Action needed]</recommendation>
+                        </row>
+                        <row>
+                            <issue_id>ARCH-002</issue_id>
+                            <category>[Pillar]</category>
+                            <description>[Brief issue description]</description>
+                            <criticality>Critical/High/Medium/Low</criticality>
+                            <impact>[Impact description]</impact>
+                            <recommendation>[Action needed]</recommendation>
+                        </row>
+                        <row>
+                            <issue_id>ARCH-003</issue_id>
+                            <category>[Pillar]</category>
+                            <description>[Brief issue description]</description>
+                            <criticality>Critical/High/Medium/Low</criticality>
+                            <impact>[Impact description]</impact>
+                            <recommendation>[Action needed]</recommendation>
+                        </row>
+                    </rows>
+                </table>
+
+                <criticality_definitions>
+                    <definition>
+                        <level>Critical</level>
+                        <description>Blocks FSI deployment, immediate action required</description>
+                    </definition>
+                    <definition>
+                        <level>High</level>
+                        <description>Significant risk, must fix before production</description>
+                    </definition>
+                    <definition>
+                        <level>Medium</level>
+                        <description>Important improvement, should fix in next iteration</description>
+                    </definition>
+                    <definition>
+                        <level>Low</level>
+                        <description>Nice to have, can be addressed in future releases</description>
+                    </definition>
+                </criticality_definitions>
+            </architecture_issues_summary>
+
+            <final_assessment>
+                <maturity_level>Architecture Maturity Level: [Level] (X.X/5)</maturity_level>
+                <assessment_paragraph>[Final assessment paragraph]</assessment_paragraph>
+                <approval_status>Approval Status: [APPROVED/CONDITIONAL/REJECTED] - [Reasoning]</approval_status>
+            </final_assessment>
+
+            <architecture_components_analysis>
+                <section id="9">
+                    <name>Infrastructure Nodes</name>
+                    <score>Score: X/5</score>
+                    <node_analysis>
+                        <positive>✅ [Well-defined nodes]</positive>
+                        <warning>⚠️ [Incomplete node specifications]</warning>
+                        <critical>❌ [Missing critical nodes]</critical>
+                    </node_analysis>
+                    <node_details_table>
+                        <headers>
+                            <header>Node ID</header>
+                            <header>Node Name</header>
+                            <header>Type</header>
+                            <header>Description</header>
+                            <header>Criticality</header>
+                        </headers>
+                        <rows>
+                            <row>
+                                <node_id>[ID]</node_id>
+                                <node_name>[Name]</node_name>
+                                <type>[Type]</type>
+                                <description>[Description]</description>
+                                <criticality>[Critical/High/Medium/Low]</criticality>
+                            </row>
+                        </rows>
+                    </node_details_table>
+                    <impact>[Node analysis impact]</impact>
+                    <recommendations>[Node improvements needed]</recommendations>
+                </section>
+
+                <section id="10">
+                    <name>Data Flows</name>
+                    <score>Score: X/5</score>
+                    <flow_analysis>
+                        <positive>✅ [Well-documented flows]</positive>
+                        <warning>⚠️ [Incomplete flow specifications]</warning>
+                        <critical>❌ [Missing critical flows]</critical>
+                    </flow_analysis>
+                    <flow_details_table>
+                        <headers>
+                            <header>Flow ID</header>
+                            <header>Source</header>
+                            <header>Target</header>
+                            <header>Type</header>
+                            <header>Protocol</header>
+                            <header>Description</header>
+                        </headers>
+                        <rows>
+                            <row>
+                                <flow_id>[ID]</flow_id>
+                                <source>[Source]</source>
+                                <target>[Target]</target>
+                                <type>[Type]</type>
+                                <protocol>[Protocol]</protocol>
+                                <description>[Description]</description>
+                            </row>
+                        </rows>
+                    </flow_details_table>
+                    <impact>[Flow analysis impact]</impact>
+                    <recommendations>[Flow improvements needed]</recommendations>
+                </section>
+            </architecture_components_analysis>
+        </structure>
+    </deliverable_format>
+
+    <review_instructions>
+        <critical_requirements>
+            <title>CRITICAL: Before starting the review, you MUST:</title>
+            <requirement order="1">Check for existing diagram analysis using get_diagram_analysis(project_id) tool</requirement>
+            <requirement order="2">If diagram analysis exists, extract nodes and flows data for sections 9 and 10</requirement>
+            <requirement order="3">If no diagram analysis exists, automatically perform diagram analysis to generate nodes/flows data</requirement>
+            <requirement order="4">Use actual node and flow data from DynamoDB in your analysis - do NOT make up placeholder data</requirement>
+            <requirement order="5">Populate sections 9 and 10 with real data from the diagram analysis results</requirement>
+            <requirement order="6">Ensure nodes and flows sections are complete before proceeding with the architecture review</requirement>
+        </critical_requirements>
+
+        <document_placeholder>
+            <title>Document to Review:</title>
+            <content>{document_content}</content>
+        </document_placeholder>
+
+        <aws_well_architected_framework>
+            <title>AWS Well-Architected Framework Focus:</title>
+            <description>This review covers 5 of the 6 AWS Well-Architected Framework pillars:</description>
+            <pillars>
+                <pillar id="1">
+                    <name>Operational Excellence</name>
+                    <description>Operations processes, monitoring, continuous improvement</description>
+                </pillar>
+                <pillar id="2">
+                    <name>Reliability</name>
+                    <description>Fault tolerance, recovery, scaling to meet demand</description>
+                </pillar>
+                <pillar id="3">
+                    <name>Performance Efficiency</name>
+                    <description>Resource utilization, performance optimization</description>
+                </pillar>
+                <pillar id="4">
+                    <name>Cost Optimization</name>
+                    <description>Cost-effective resource usage and management</description>
+                </pillar>
+                <pillar id="5">
+                    <name>Sustainability</name>
+                    <description>Environmental impact and resource efficiency</description>
+                </pillar>
+            </pillars>
+            <note>Security pillar is handled separately by the Security Architect Agent</note>
+        </aws_well_architected_framework>
+
+        <scoring_guidelines>
+            <score value="5">Excellent - Exceeds FSI standards</score>
+            <score value="4">Good - Meets FSI standards with minor gaps</score>
+            <score value="3">Adequate - Meets basic requirements, needs improvement</score>
+            <score value="2">Poor - Significant gaps, major improvements needed</score>
+            <score value="1">Critical - Fundamental issues, complete rework required</score>
+        </scoring_guidelines>
+
+        <critical_items>
+            <description>🔒 Critical Items: Must score 4/5 or higher for FSI approval (excludes security - handled by Security Architect Agent)</description>
+        </critical_items>
+
+        <symbols>
+            <symbol>✅ Strengths/Positive findings</symbol>
+            <symbol>⚠️ Warnings/Areas for improvement</symbol>
+            <symbol>❌ Critical issues/Missing elements</symbol>
+        </symbols>
+
+        <issue_table_requirements>
+            <requirement>Include 5-10 most significant issues found during review</requirement>
+            <requirement>Use sequential ARCH-XXX IDs for tracking</requirement>
+            <requirement>Map each issue to appropriate AWS Well-Architected pillar</requirement>
+            <requirement>Assign criticality based on FSI deployment impact</requirement>
+            <requirement>Provide specific, actionable recommendations</requirement>
+        </issue_table_requirements>
+    </review_instructions>
+</fsi_architecture_review>

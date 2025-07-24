@@ -1,0 +1,5 @@
+bucket         = "risk-agent-terraform-state-<your aws account id>"
+key            = "terraform.tfstate"
+region         = "<your aws region>"
+dynamodb_table = "risk-agent-terraform-locks-<your aws account id>"
+encrypt        = true

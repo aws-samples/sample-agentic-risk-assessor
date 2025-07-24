@@ -1,0 +1,180 @@
+# Construction Industry Configuration
+
+industry: "Construction"
+
+# Additional industry-specific fields
+additional_fields:
+  - name: "construction_type"
+    type: "multi_select"
+    required: true
+    question: "What type of construction do you perform?"
+    options:
+      - "Commercial Construction"
+      - "Residential Construction"
+      - "Industrial Construction"
+      - "Infrastructure/Civil Engineering"
+      - "Specialty Trades"
+    document_extraction:
+      enabled: true
+      keywords: ["commercial construction", "residential", "industrial", "infrastructure"]
+      confidence_threshold: 0.85
+      
+  - name: "osha_compliance"
+    type: "choice"
+    required: true
+    question: "What is your OSHA compliance status?"
+    options:
+      - value: "fully_compliant"
+        label: "Fully Compliant"
+      - value: "in_progress"
+        label: "Compliance in Progress"
+      - value: "not_applicable"
+        label: "Not Applicable"
+    document_extraction:
+      enabled: true
+      keywords: ["OSHA", "occupational safety", "OSHA compliance"]
+      confidence_threshold: 0.90
+      
+  - name: "safety_programs"
+    type: "multi_select"
+    required: true
+    question: "What safety programs do you have in place?"
+    options:
+      - "Fall Protection Program"
+      - "Hazard Communication Program"
+      - "Lockout/Tagout Program"
+      - "Confined Space Program"
+      - "Respiratory Protection Program"
+      - "Hearing Conservation Program"
+    document_extraction:
+      enabled: true
+      keywords: ["safety program", "fall protection", "hazard communication"]
+      confidence_threshold: 0.85
+      
+  - name: "project_management_systems"
+    type: "multi_select"
+    required: true
+    question: "What project management systems do you use?"
+    options:
+      - "Project Management Software"
+      - "Building Information Modeling (BIM)"
+      - "Document Management Systems"
+      - "Time Tracking Systems"
+      - "Equipment Management"
+    document_extraction:
+      enabled: true
+      keywords: ["project management", "BIM", "document management"]
+      confidence_threshold: 0.80
+      
+  - name: "subcontractor_management"
+    type: "choice"
+    required: true
+    question: "How do you manage subcontractor security and compliance?"
+    options:
+      - "Formal vetting process"
+      - "Basic requirements"
+      - "No formal process"
+    document_extraction:
+      enabled: true
+      keywords: ["subcontractor", "vendor management", "contractor requirements"]
+      confidence_threshold: 0.80
+      
+  - name: "site_security"
+    type: "multi_select"
+    required: true
+    question: "What site security measures do you implement?"
+    options:
+      - "Physical Access Control"
+      - "Video Surveillance"
+      - "Security Guards"
+      - "Equipment Tracking"
+      - "Material Inventory Control"
+    document_extraction:
+      enabled: true
+      keywords: ["site security", "access control", "surveillance"]
+      confidence_threshold: 0.80
+      
+  - name: "worker_data_protection"
+    type: "boolean"
+    required: true
+    question: "Do you have policies for protecting worker personal data?"
+    document_extraction:
+      enabled: true
+      keywords: ["worker data", "employee data", "personal information"]
+      confidence_threshold: 0.85
+
+# Contextual questions for sub-industries
+contextual_questions:
+  general_contractor:
+    trigger_keywords: ["general contractor", "GC", "prime contractor"]
+    questions:
+      - name: "subcontractor_count"
+        question: "How many subcontractors do you typically manage per project?"
+      - name: "project_size"
+        question: "What is your typical project size range?"
+        
+  specialty_contractor:
+    trigger_keywords: ["specialty", "subcontractor", "trade"]
+    questions:
+      - name: "specialty_type"
+        question: "What is your primary specialty trade?"
+      - name: "licensing"
+        question: "What licenses and certifications do you maintain?"
+        
+  design_build:
+    trigger_keywords: ["design-build", "design build"]
+    questions:
+      - name: "design_software"
+        question: "What design and engineering software do you use?"
+      - name: "integrated_delivery"
+        question: "Do you use integrated project delivery methods?"
+
+# Industry-specific regulations
+regulations:
+  - name: "OSHA Construction Standards"
+    description: "29 CFR 1926 - Safety and Health Regulations for Construction"
+    applicability: "All construction employers"
+    
+  - name: "State Building Codes"
+    description: "State-specific building and construction codes"
+    applicability: "Varies by state and project type"
+    
+  - name: "Davis-Bacon Act"
+    description: "Prevailing wage requirements for federal contracts"
+    applicability: "Federal construction projects"
+    
+  - name: "EPA Construction Regulations"
+    description: "Environmental protection requirements"
+    applicability: "Construction projects affecting environment"
+    
+  - name: "ADA Requirements"
+    description: "Americans with Disabilities Act compliance"
+    applicability: "Commercial and public construction"
+
+# MCP search queries for this industry
+mcp_search_queries:
+  - query: "construction cybersecurity threats 2025"
+    use_for: ["threat_landscape", "risk_assessment"]
+    
+  - query: "OSHA construction safety requirements"
+    use_for: ["regulatory_compliance", "safety"]
+    
+  - query: "construction site security best practices"
+    use_for: ["physical_security", "site_protection"]
+    
+  - query: "BIM security and data protection"
+    use_for: ["technology_environment", "data_protection"]
+
+# Common security tools in this industry
+common_tools:
+  - category: "Project Management"
+    tools: ["Project management software", "BIM platforms", "Document management"]
+    
+  - category: "Site Security"
+    tools: ["Access control systems", "Video surveillance", "Equipment tracking"]
+    
+  - category: "Safety Management"
+    tools: ["Safety management software", "Incident reporting", "Training management"]
+    
+  - category: "Data Protection"
+    tools: ["Cloud storage security", "Mobile device management", "Secure file sharing"]
