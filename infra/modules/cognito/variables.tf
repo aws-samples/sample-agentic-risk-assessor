@@ -71,7 +71,7 @@ variable "federated_sso_client_secret_arn" {
 variable "federated_sso_issuer" {
   description = "Federate OIDC issuer URL"
   type        = string
-  default     = """"
+  default     = ""
 }
 variable "federated_sso_provider_name" {
   description = "Name of the OIDC identity provider in Cognito"

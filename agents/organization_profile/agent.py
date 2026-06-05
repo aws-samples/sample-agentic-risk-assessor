@@ -509,7 +509,7 @@ class OrganizationProfileAgent(BaseAgent):
             try:
                 from io import BytesIO
                 
-                bucket = os.environ.get('DOCUMENTS_BUCKET', 'risk-agent-project-documents-b7e63ea0')
+                bucket = os.environ.get('DOCUMENTS_BUCKET', '')
                 prefix = f"organization_profiles/{profile_id}/documents/"
                 
                 s3 = boto3.client('s3')
@@ -582,7 +582,7 @@ class OrganizationProfileAgent(BaseAgent):
             try:
                 from io import BytesIO
                 
-                bucket = os.environ.get('DOCUMENTS_BUCKET', 'risk-agent-project-documents-b7e63ea0')
+                bucket = os.environ.get('DOCUMENTS_BUCKET', '')
                 prefix = f"organization_profiles/{profile_id}/documents/"
                 
                 s3 = boto3.client('s3')

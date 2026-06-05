@@ -196,34 +196,6 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
 }
 
 # Additional policy for ECS task execution role to access Langfuse SSM parameters
-resource "aws_iam_policy" "ecs_task_execution_ssm" {
-  name        = "${var.project_name}-ecs-task-execution-ssm"
-  description = "Allow ECS task execution role to access Langfuse SSM parameters"
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "ssm:GetParameters",
-          "ssm:GetParameter"
-        ]
-        Resource = [
-          "arn:aws:ssm:${var.region}:${var.account_id}:parameter/${var.project_name}/*/langfuse/*"
-        ]
-      }
-    ]
-  })
-
-  tags = var.tags
-}
-
-resource "aws_iam_role_policy_attachment" "ecs_task_execution_ssm" {
-  role       = aws_iam_role.ecs_task_execution.name
-  policy_arn = aws_iam_policy.ecs_task_execution_ssm.arn
-}
-
 # ECS task role
 resource "aws_iam_role" "ecs_task" {
   name = "${var.project_name}-agents-task-role"
@@ -287,6 +259,11 @@ resource "aws_iam_policy" "agent_secrets" {
         Effect   = "Allow"
         Action   = ["secretsmanager:GetSecretValue"]
         Resource = "arn:aws:secretsmanager:${var.region}:${var.account_id}:secret:${var.project_name}-${each.key}-client-secret-*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = ["kms:Decrypt", "kms:GenerateDataKey"]
+        Resource = "arn:aws:kms:${var.region}:${var.account_id}:key/*"
       }
     ]
   })

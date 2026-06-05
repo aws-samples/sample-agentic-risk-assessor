@@ -4,12 +4,12 @@ Strands-native Base Agent with proper session management and telemetry
 import sys
 sys.path.append('/app')
 
+from agents.shared import authenticated_a2a_client  # Enable OAuth authentication - MUST be before strands imports
 from strands import Agent
 from strands.session import RepositorySessionManager
 from strands.types.session import Session, SessionAgent, SessionMessage
 from strands.agent.conversation_manager import SlidingWindowConversationManager
 from strands_tools.a2a_client import A2AClientToolProvider
-from agents.shared import authenticated_a2a_client  # Enable OAuth authentication
 import boto3
 import json
 import os
@@ -25,12 +25,6 @@ try:
 except ImportError:
     telemetry_available = False
 
-# Langfuse configuration check
-try:
-    from agents.shared.langfuse_client import is_enabled
-    langfuse_enabled = is_enabled()
-except ImportError:
-    langfuse_enabled = False
 # Setup optimized logging
 setup_strands_logging()
 logger = setup_optimized_logging(__name__, level=logging.INFO)
@@ -44,34 +38,8 @@ class BaseAgent:
         self.agent_name = agent_name
         self.lambda_client = boto3.client('lambda')
         
-        # Setup Strands telemetry if available and Langfuse is enabled
+        # Setup Strands telemetry if available
         telemetry_start = time.time()
-        if telemetry_available and langfuse_enabled:
-            try:
-                # Set required OTEL environment variables for Langfuse integration
-                import base64
-                langfuse_public_key = os.getenv('LANGFUSE_PUBLIC_KEY')
-                langfuse_secret_key = os.getenv('LANGFUSE_SECRET_KEY')
-                langfuse_host = os.getenv('LANGFUSE_HOST', 'https://cloud.langfuse.com')
-                
-                if langfuse_public_key and langfuse_secret_key:
-                    # Build Basic Auth header
-                    langfuse_auth = base64.b64encode(
-                        f"{langfuse_public_key}:{langfuse_secret_key}".encode()
-                    ).decode()
-                    
-                    # Set OTEL environment variables
-                    os.environ["OTEL_EXPORTER_OTLP_ENDPOINT"] = f"{langfuse_host}/api/public/otel/v1/traces"
-                    os.environ["OTEL_EXPORTER_OTLP_HEADERS"] = f"Authorization=Basic {langfuse_auth}"
-                    
-                    # Setup telemetry
-                    strands_telemetry = StrandsTelemetry()
-                    strands_telemetry.setup_otlp_exporter()
-                    logger.info(f"Strands telemetry configured for {agent_name} with Langfuse endpoint")
-                else:
-                    logger.warning("Langfuse credentials not found, telemetry disabled")
-            except Exception as e:
-                logger.warning(f"Failed to setup telemetry: {e}")
         telemetry_time = time.time() - telemetry_start
         print(f"[BASE_DEBUG] Telemetry setup: {telemetry_time:.3f}s")
         
@@ -211,15 +179,9 @@ class BaseAgent:
         combine_time = time.time() - combine_start
         print(f"[BASE_DEBUG] Tools combined: {combine_time:.3f}s")
         
-        # Prepare trace attributes for Langfuse integration
+        # Prepare trace attributes
         trace_start = time.time()
         trace_attributes = {}
-        if langfuse_enabled:
-            trace_attributes = {
-                "langfuse.session_id": f"{agent_name.lower()}_session",
-                "langfuse.user_id": "system",
-                "langfuse.tags": [agent_name, "RiskAgent", "Strands-SDK"]
-            }
         trace_time = time.time() - trace_start
         print(f"[BASE_DEBUG] Trace attributes prepared: {trace_time:.3f}s")
         
@@ -374,7 +336,6 @@ class BaseAgent:
             logger.info(f"Calling agent with message: {message[:100]}...")
             result = self.agent(message)
             logger.info(f"[{self.agent_name.upper()}] Response time: {time.time() - start_time:.2f}s")
-            self._flush_langfuse_traces()
             return result
         except Exception as e:
             error_str = str(e).lower()
@@ -385,7 +346,6 @@ class BaseAgent:
                 try:
                     result = self.agent(message)
                     logger.info(f"[{self.agent_name.upper()}] Response time (after cleanup): {time.time() - start_time:.2f}s")
-                    self._flush_langfuse_traces()
                     return result
                 except Exception as retry_e:
                     logger.error(f"Retry after cleanup failed: {retry_e}")
@@ -396,19 +356,6 @@ class BaseAgent:
                 self._refresh_bedrock_model()
                 result = self.agent(message)
                 logger.info(f"[{self.agent_name.upper()}] Response time (after refresh): {time.time() - start_time:.2f}s")
-                self._flush_langfuse_traces()
                 return result
             logger.error(f"[{self.agent_name.upper()}] Error after {time.time() - start_time:.2f}s: {str(e)}")
-            self._flush_langfuse_traces()
             raise e
-        finally:
-            self._flush_langfuse_traces()
-    
-    def _flush_langfuse_traces(self):
-        """Flush Langfuse traces to ensure they are sent"""
-        try:
-            if is_enabled():
-                flush()
-                logger.debug("Langfuse traces flushed")
-        except Exception as e:
-            logger.warning(f"Failed to flush Langfuse traces: {e}")

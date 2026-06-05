@@ -129,6 +129,7 @@ resource "aws_ecs_task_definition" "this" {
         { name = "AGENT_NAME", value = each.key },
         { name = "AGENT_PORT", value = tostring(each.value.port) },
         { name = "APP_DATA_BUCKET", value = lookup(var.s3_bucket_names, "app_data", "") },
+        { name = "DOCUMENTS_BUCKET", value = lookup(var.s3_bucket_names, "project_documents", "") },
         { name = "COGNITO_USER_POOL_ID", value = var.cognito_user_pool_id },
         { name = "COGNITO_DOMAIN_PREFIX", value = var.cognito_domain_name },
         { name = "AGENTS_ALB_URL", value = "http://${var.agents_alb_dns_name}" },
@@ -142,15 +143,6 @@ resource "aws_ecs_task_definition" "this" {
         { name = "BEDROCK_ROLE_ARN", value = var.bedrock_role_arn },
         { name = "BEDROCK_ACCOUNT_ID", value = var.bedrock_account_id },
         { name = "SESSIONS_TABLE", value = lookup(var.dynamodb_table_names, "sessions", "") },
-        { name = "LANGFUSE_ENABLED", value = var.langfuse_saas_enabled ? "true" : "false" },
-        { name = "LANGFUSE_HOST", value = var.langfuse_saas_enabled ? var.langfuse_saas_host : "" },
-        { name = "LANGFUSE_PUBLIC_KEY", value = var.langfuse_saas_enabled ? var.langfuse_saas_public_key : "" },
-        { name = "LANGFUSE_SECRET_KEY", value = var.langfuse_saas_enabled ? var.langfuse_saas_secret_key : "" },
-        # OpenTelemetry configuration for Langfuse SaaS
-        { name = "OTEL_EXPORTER_OTLP_ENDPOINT", value = var.langfuse_saas_enabled ? "${var.langfuse_saas_host}/api/public/otel" : "" },
-        { name = "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT", value = var.langfuse_saas_enabled ? "${var.langfuse_saas_host}/api/public/otel/v1/traces" : "" },
-        { name = "OTEL_EXPORTER_OTLP_HEADERS", value = var.langfuse_saas_enabled ? "Authorization=Basic ${base64encode("${var.langfuse_saas_public_key}:${var.langfuse_saas_secret_key}")}" : "" },
-        { name = "OTEL_EXPORTER_OTLP_PROTOCOL", value = var.langfuse_saas_enabled ? "http/protobuf" : "" }
       ]
     )
 

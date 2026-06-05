@@ -177,50 +177,6 @@ variable "dynamodb_table_names" {
   default     = {}
 }
 
-variable "langfuse_enabled" {
-  description = "Enable Langfuse tracing integration"
-  type        = bool
-  default     = false
-}
-
-variable "langfuse_public_key_parameter" {
-  description = "SSM parameter name for Langfuse public key"
-  type        = string
-  default     = ""
-}
-
-variable "langfuse_secret_key_parameter" {
-  description = "SSM parameter name for Langfuse secret key"
-  type        = string
-  default     = ""
-}
-
-variable "langfuse_saas_enabled" {
-  description = "Enable Langfuse SaaS integration"
-  type        = bool
-  default     = false
-}
-
-variable "langfuse_saas_host" {
-  description = "Langfuse SaaS host URL"
-  type        = string
-  default     = "https://cloud.langfuse.com"
-}
-
-variable "langfuse_saas_public_key" {
-  description = "Langfuse SaaS public key"
-  type        = string
-  default     = ""
-  sensitive   = true
-}
-
-variable "langfuse_saas_secret_key" {
-  description = "Langfuse SaaS secret key"
-  type        = string
-  default     = ""
-  sensitive   = true
-}
-
 variable "voice_audio_bucket_name" {
   description = "S3 bucket name for voice audio storage"
   type        = string

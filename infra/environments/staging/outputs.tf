@@ -100,20 +100,8 @@ output "agents_alb_dns_name" {
 }
 
 # Langfuse outputs - DISABLED: Migrated to SaaS
-# output "langfuse_url" {
-#   description = "Langfuse observability platform URL"
-#   value       = module.langfuse.langfuse_url
-# }
 
-# output "langfuse_public_key_parameter" {
-#   description = "SSM parameter name for Langfuse public key"
-#   value       = module.langfuse.langfuse_public_key_parameter
-# }
 
-# output "langfuse_secret_key_parameter" {
-#   description = "SSM parameter name for Langfuse secret key"
-#   value       = module.langfuse.langfuse_secret_key_parameter
-# }
 
 # Voice Services outputs
 output "voice_audio_bucket_name" {
@@ -132,12 +120,14 @@ output "transcribe_vocabulary_name" {
 }
 
 # SaaS Langfuse outputs
-output "langfuse_saas_public_key_parameter" {
-  description = "SSM parameter name for Langfuse SaaS public key"
-  value       = aws_ssm_parameter.langfuse_saas_public_key.name
+
+
+output "knowledge_base_bucket_name" {
+  description = "S3 bucket for Knowledge Base framework documents"
+  value       = module.bedrock_knowledge_base.framework_docs_bucket_name
 }
 
-output "langfuse_saas_secret_key_parameter" {
-  description = "SSM parameter name for Langfuse SaaS secret key"
-  value       = aws_ssm_parameter.langfuse_saas_secret_key.name
+output "knowledge_base_data_source_id" {
+  description = "Knowledge Base data source ID"
+  value       = module.bedrock_knowledge_base.data_source_id
 }

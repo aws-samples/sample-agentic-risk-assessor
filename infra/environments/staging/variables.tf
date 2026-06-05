@@ -153,35 +153,10 @@ variable "api_gateway_routes" {
   default = {}
 }
 
-variable "langfuse_enabled" {
-  description = "Enable Langfuse tracing integration"
-  type        = bool
-  default     = true
-}
 
-variable "langfuse_saas_enabled" {
-  description = "Enable Langfuse SaaS integration"
-  type        = bool
-  default     = false
-}
 
-variable "langfuse_saas_host" {
-  description = "Langfuse SaaS host URL"
-  type        = string
-  default     = "https://cloud.langfuse.com"
-}
 
-variable "langfuse_saas_public_key" {
-  description = "Langfuse SaaS public key"
-  type        = string
-  sensitive   = true
-}
 
-variable "langfuse_saas_secret_key" {
-  description = "Langfuse SaaS secret key"
-  type        = string
-  sensitive   = true
-}
 
 # MCP Search Integration Variables
 variable "mcp_search_endpoint" {
@@ -239,5 +214,5 @@ variable "federated_sso_client_secret_arn" {
 variable "federated_sso_issuer" {
   description = "Federate OIDC issuer URL"
   type        = string
-  default     = """"
+  default     = ""
 }

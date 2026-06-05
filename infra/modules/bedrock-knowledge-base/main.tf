@@ -46,10 +46,15 @@ resource "aws_opensearchserverless_security_policy" "knowledge_base_network" {
             "collection/${var.project_name}-kb-collection"
           ]
           ResourceType = "collection"
+        },
+        {
+          Resource = [
+            "collection/${var.project_name}-kb-collection"
+          ]
+          ResourceType = "dashboard"
         }
       ]
-      AllowFromPublic = false
-      SourceVPCEs     = [aws_opensearchserverless_vpc_endpoint.knowledge_base.id]
+      AllowFromPublic = true
     }
   ])
 }
@@ -222,9 +227,49 @@ resource "time_sleep" "opensearch_propagation" {
   create_duration = "2m"
 }
 
-# Vector index "risk-agent-kb-index" exists in the OpenSearch Serverless collection.
-# Cannot be managed by Terraform after VPC endpoint restriction (no public access).
-# Index was created prior to VPC restriction and remains functional.
+# Vector index for Bedrock Knowledge Base
+# Must be created before the Knowledge Base resource
+resource "opensearch_index" "knowledge_base" {
+  name                           = local.opensearch_index_name
+  number_of_shards               = "2"
+  number_of_replicas             = "0"
+  index_knn                      = true
+  index_knn_algo_param_ef_search = "512"
+  mappings = jsonencode({
+    properties = {
+      "bedrock-knowledge-base-default-vector" = {
+        type      = "knn_vector"
+        dimension = 1024
+        method = {
+          name       = "hnsw"
+          engine     = "faiss"
+          parameters = {
+            m               = 16
+            ef_construction = 512
+          }
+        }
+      }
+      "AMAZON_BEDROCK_METADATA" = {
+        type  = "text"
+        index = false
+      }
+      "AMAZON_BEDROCK_TEXT_CHUNK" = {
+        type = "text"
+      }
+    }
+  })
+  force_destroy = true
+
+  depends_on = [
+    aws_opensearchserverless_access_policy.knowledge_base,
+    aws_opensearchserverless_collection.knowledge_base
+  ]
+
+  lifecycle {
+    ignore_changes = [mappings]
+  }
+}
+
 locals {
   opensearch_index_name = "risk-agent-kb-index"
 }
@@ -258,13 +303,19 @@ resource "aws_bedrockagent_knowledge_base" "security_frameworks" {
 
   depends_on = [
     aws_opensearchserverless_access_policy.knowledge_base,
-    aws_iam_role_policy.knowledge_base
+    aws_iam_role_policy.knowledge_base,
+    opensearch_index.knowledge_base
   ]
+}
+
+# Random suffix for globally unique bucket names
+resource "random_id" "framework_docs_suffix" {
+  byte_length = 4
 }
 
 # S3 Bucket for Framework Documents
 resource "aws_s3_bucket" "framework_docs" {
-  bucket = "${var.project_name}-framework-docs"
+  bucket = "${var.project_name}-framework-docs-${random_id.framework_docs_suffix.hex}"
   tags   = var.tags
 }
 

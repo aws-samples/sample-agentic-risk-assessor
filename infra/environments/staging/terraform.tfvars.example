@@ -25,11 +25,6 @@ cognito_logout_urls = [
 
 # Lambda Functions - Defined in Lambda module
 
-# Langfuse Integration - SaaS with OpenTelemetry
-langfuse_enabled = false
-langfuse_saas_enabled = true
-langfuse_saas_host = "https://us.cloud.langfuse.com"
-
 # Cross-account Bedrock Configuration - DISABLED for inference profile compatibility
 # bedrock_role_arn = "arn:aws:iam::<YOUR_AWS_ACCOUNT_ID>:role/<YOUR_BEDROCK_ROLE>"
 # bedrock_account_id = "<CROSS_ACCOUNT_ID>"
@@ -44,7 +39,7 @@ bedrock_top_k = 1
 bedrock_timeout = 120
 
 # RAG-specific configuration for discover_framework_controls
-rag_bedrock_model_id = "anthropic.claude-3-5-sonnet-20241022-v2:0"
+rag_bedrock_model_id = "us.anthropic.claude-sonnet-4-20250514-v1:0"
 rag_bedrock_temperature = 0.0
 rag_bedrock_top_p = 0.1
 rag_bedrock_top_k = 1

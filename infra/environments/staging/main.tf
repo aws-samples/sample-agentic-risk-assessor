@@ -17,6 +17,10 @@ terraform {
       source  = "opensearch-project/opensearch"
       version = "= 2.2.0"
     }
+    tls = {
+      source  = "hashicorp/tls"
+      version = "~> 4.0"
+    }
   }
 
   backend "s3" {
@@ -42,6 +46,9 @@ provider "aws" {
 provider "opensearch" {
   url         = module.bedrock_knowledge_base.opensearch_collection_endpoint
   healthcheck = false
+  aws_region  = var.region
+  aws_assume_role_arn = ""
+  sign_aws_requests   = true
 }
 
 data "aws_caller_identity" "current" {}
@@ -73,8 +80,6 @@ module "secrets" {
   project_name = var.project_name
   environment  = var.environment
 
-  langfuse_public_key = var.langfuse_saas_public_key
-  langfuse_secret_key = var.langfuse_saas_secret_key
   kms_key_id          = module.kms.lambda_key_id
 
   tags = {
@@ -114,7 +119,7 @@ resource "aws_lambda_layer_version" "aws_core" {
 resource "aws_lambda_layer_version" "pandoc" {
   layer_name          = "${var.project_name}-pandoc-layer"
   filename            = "../../../temp/lambda_packages/pandoc_layer.zip"
-  compatible_runtimes = ["python3.9", "python3.11"]
+  compatible_runtimes = ["python3.9", "python3.11", "python3.12", "python3.13"]
 }
 
 # Create inspector layer
@@ -230,7 +235,7 @@ module "lambda" {
   agent_base_url           = "http://${module.networking.agents_alb_dns_name}"
 
   # NEW: Enhanced discovery variables
-  knowledge_base_id      = var.knowledge_base_id
+  knowledge_base_id      = module.bedrock_knowledge_base.knowledge_base_id
   rag_model_id           = var.rag_model_id
   mcp_endpoint           = "https://docs.aws.amazon.com"
   service_controls_table = module.dynamodb.table_names["service_controls"]
@@ -351,10 +356,6 @@ module "ecs" {
   bedrock_account_id  = var.bedrock_account_id
 
   # Langfuse SaaS integration
-  langfuse_saas_enabled    = var.langfuse_saas_enabled
-  langfuse_saas_host       = var.langfuse_saas_host
-  langfuse_saas_public_key = module.secrets.langfuse_public_key
-  langfuse_saas_secret_key = module.secrets.langfuse_secret_key
 
   tags = {
     Project     = var.project_name
@@ -391,6 +392,41 @@ module "cognito" {
   }
 }
 
+# Self-signed TLS certificate for internal ALB HTTPS
+resource "tls_private_key" "internal" {
+  algorithm = "RSA"
+  rsa_bits  = 2048
+}
+
+resource "tls_self_signed_cert" "internal" {
+  private_key_pem = tls_private_key.internal.private_key_pem
+
+  subject {
+    common_name  = "*.${var.project_name}.internal"
+    organization = var.project_name
+  }
+
+  validity_period_hours = 87600 # 10 years
+
+  allowed_uses = [
+    "key_encipherment",
+    "digital_signature",
+    "server_auth",
+  ]
+}
+
+resource "aws_acm_certificate" "internal" {
+  private_key      = tls_private_key.internal.private_key_pem
+  certificate_body = tls_self_signed_cert.internal.cert_pem
+
+  tags = {
+    Name        = "${var.project_name}-internal-cert"
+    Project     = var.project_name
+    Environment = var.environment
+    ManagedBy   = "Terraform"
+  }
+}
+
 # Frontend Module
 module "frontend" {
   source = "../../modules/frontend"
@@ -415,6 +451,8 @@ module "frontend" {
 
   cognito_user_pool_id = module.cognito.user_pool_id
   cognito_client_id    = module.cognito.user_pool_client_id
+
+  certificate_arn = aws_acm_certificate.internal.arn
 
   tags = {
     Project     = var.project_name
@@ -445,23 +483,6 @@ module "cloudfront" {
 
 # WAF Association for External Agents ALB
 # Langfuse Module (LLM Observability) - DISABLED: Migrated to SaaS
-# module "langfuse" {
-#   source = "../../modules/langfuse"
-#   
-#   project_name = var.project_name
-#   environment  = var.environment
-#   
-#   vpc_id                 = module.networking.vpc_id
-#   private_subnet_ids     = module.networking.private_subnet_ids
-#   db_subnet_group_name   = module.networking.db_subnet_group_name
-#   ecs_cluster_id         = module.ecs.cluster_id
-#   execution_role_arn     = module.iam.ecs_task_execution_role_arn
-#   task_role_arn          = module.iam.ecs_task_role_arn
-#   alb_listener_arn       = module.networking.agents_alb_listener_arn
-#   alb_arn                = module.networking.agents_alb_arn
-#   alb_security_group_id  = module.networking.agents_alb_security_group_id
-#   alb_dns_name           = module.networking.agents_alb_dns_name
-#   langfuse_url           = "http://${module.networking.agents_alb_dns_name}/langfuse"
 #   
 #   tags = {
 #     Project     = var.project_name
@@ -469,39 +490,3 @@ module "cloudfront" {
 #     ManagedBy   = "Terraform"
 #   }
 # }
-
-# SSM Parameters for Langfuse SaaS (placeholders - update after cloud setup)
-resource "aws_ssm_parameter" "langfuse_saas_public_key" {
-  name        = "/${var.project_name}/${var.environment}/langfuse-saas/public-key"
-  description = "Langfuse SaaS public API key"
-  type        = "String"
-  value       = "PLACEHOLDER_SET_AFTER_CLOUD_SETUP"
-
-  lifecycle {
-    ignore_changes = [value]
-  }
-
-  tags = {
-    Project     = var.project_name
-    Environment = var.environment
-    ManagedBy   = "Terraform"
-  }
-}
-
-resource "aws_ssm_parameter" "langfuse_saas_secret_key" {
-  name        = "/${var.project_name}/${var.environment}/langfuse-saas/secret-key"
-  description = "Langfuse SaaS secret API key"
-  type        = "SecureString"
-  value       = "PLACEHOLDER_SET_AFTER_CLOUD_SETUP"
-  key_id      = module.kms.secrets_manager_key_id
-
-  lifecycle {
-    ignore_changes = [value]
-  }
-
-  tags = {
-    Project     = var.project_name
-    Environment = var.environment
-    ManagedBy   = "Terraform"
-  }
-}

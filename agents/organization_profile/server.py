@@ -527,7 +527,7 @@ class OrganizationProfileServer(BaseA2AServer):
                             from datetime import datetime
                             
                             s3_client = boto3.client('s3')
-                            bucket_name = os.environ.get('DOCUMENTS_BUCKET', 'risk-agent-project-documents-b7e63ea0')
+                            bucket_name = os.environ.get('DOCUMENTS_BUCKET', '')
                             
                             # Decode base64 content
                             document_bytes = base64.b64decode(document_content_base64)

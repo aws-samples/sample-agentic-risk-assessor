@@ -111,7 +111,6 @@ SIMPLE_FUNCTIONS=(
     "get_batch_services" "get_diagram_url" "get_node_controls"
     "get_node_details" "health" "images"
     "invoke_bedrock" "manage_services" "map_controls"
-    "get_security_assessment"
     "get_sessions" "delete_session" "get_agent_capabilities"
     "perform_security_assessment" "process_bedrock_results" "process_node_controls" 
     "process_results" "process_s3_files"
@@ -310,6 +309,24 @@ build_simple_function() {
     echo "✅ $func_name built and packaged"
 }
 
+# Build AWS core layer (boto3 + python-dateutil)
+build_aws_core_layer() {
+    local layer_zip="$TEMP_DIR/aws_core_layer.zip"
+    if [[ -f "$layer_zip" ]]; then
+        echo "✅ AWS core layer already built"
+        return 0
+    fi
+    echo "🔨 Building AWS core layer (boto3 + python-dateutil)..."
+    local layer_dir="$TEMP_DIR/aws_core_layer_build/python"
+    mkdir -p "$layer_dir"
+    pip install boto3 python-dateutil -t "$layer_dir" --quiet >/dev/null 2>&1
+    cd "$TEMP_DIR/aws_core_layer_build" || error "Failed to cd"
+    zip -r "$layer_zip" python/ >/dev/null 2>&1
+    cd "$PROJECT_ROOT" || error "Failed to cd to $PROJECT_ROOT"
+    rm -rf "$TEMP_DIR/aws_core_layer_build"
+    echo "✅ AWS core layer built"
+}
+
 # Build pandoc layer with pypandoc
 build_pandoc_layer() {
     local layer_zip="$TEMP_DIR/pandoc_layer.zip"
@@ -324,30 +341,20 @@ build_pandoc_layer() {
     if [[ ! -f "$layer_dir/bin/pandoc" ]]; then
         echo "📥 Downloading pandoc binary..."
         cd "$layer_dir" || error "Failed to cd to $layer_dir"
-        curl -L https://github.com/jgm/pandoc/releases/download/3.1.8/pandoc-3.1.8-linux-amd64.tar.gz | tar xz
+        curl -sL https://github.com/jgm/pandoc/releases/download/3.1.8/pandoc-3.1.8-linux-amd64.tar.gz | tar xz
         cp pandoc-3.1.8/bin/pandoc bin/
         rm -rf pandoc-3.1.8
         cd "$PROJECT_ROOT" || error "Failed to cd to $PROJECT_ROOT"
     fi
     
-    # Install pypandoc Python package
+    # Install pypandoc directly into layer python directory
     echo "📦 Installing pypandoc Python package..."
+    pip install pypandoc -t "$layer_dir/python/" --quiet >/dev/null 2>&1
     
-    # Create temporary virtual environment for pypandoc
-    local pandoc_venv="$TEMP_DIR/pandoc_venv_$$"
-    python3.11 -m venv "$pandoc_venv" >/dev/null 2>&1
-    source "$pandoc_venv/bin/activate"
-    
-    # Install in virtual environment then copy
-    pip install pypandoc --quiet >/dev/null 2>&1
-    
-    # Copy packages to layer directory
-    local site_packages="$pandoc_venv/lib/python"*/site-packages
-    cp -r "$site_packages"/* "$layer_dir/python/" 2>/dev/null || true
-    
-    # Cleanup
-    deactivate
-    rm -rf "$pandoc_venv"
+    # Verify pypandoc was installed
+    if [[ ! -d "$layer_dir/python/pypandoc" ]]; then
+        error "Failed to install pypandoc into layer"
+    fi
     
     # Create layer zip
     cd "$layer_dir" || error "Failed to cd to $layer_dir"
@@ -463,7 +470,7 @@ deploy_layer() {
         aws lambda publish-layer-version \
         --layer-name "$aws_layer_name" \
         --zip-file "fileb://$layer_zip" \
-        --compatible-runtimes python3.9 python3.11 \
+        --compatible-runtimes python3.9 python3.11 python3.12 python3.13 \
         --profile "$AWS_PROFILE" \
         --region "$AWS_REGION"; then
         # aws_cmd already shows success message
@@ -488,23 +495,17 @@ deploy_function() {
     
     echo "🚀 Deploying $func_name to AWS (as $aws_func_name)..."
     
-    # Check if function exists
-    if aws lambda get-function --function-name "$aws_func_name" --profile "$AWS_PROFILE" --region "$AWS_REGION" >/dev/null 2>&1; then
-        # Update existing function
-        if aws_cmd "Function $func_name deployment" \
-            aws lambda update-function-code \
-            --function-name "$aws_func_name" \
-            --zip-file "fileb://$zip_file" \
-            --profile "$AWS_PROFILE" \
-            --region "$AWS_REGION"; then
-            true  # Success already handled by aws_cmd
-        else
-            FAILED_DEPLOYMENTS+=("function: $func_name")
-            warn "Continuing with remaining deployments"
-        fi
+    # Update function code directly (terraform creates the functions)
+    if aws_cmd "Function $func_name deployment" \
+        aws lambda update-function-code \
+        --function-name "$aws_func_name" \
+        --zip-file "fileb://$zip_file" \
+        --profile "$AWS_PROFILE" \
+        --region "$AWS_REGION"; then
+        true
     else
-        echo "⚠️ Function $aws_func_name not found in AWS - skipping"
-        return 0
+        FAILED_DEPLOYMENTS+=("function: $func_name")
+        warn "Continuing with remaining deployments"
     fi
 }
 
@@ -586,6 +587,7 @@ build_all() {
     
     # Build layers first
     echo "📦 Building layers..."
+    build_aws_core_layer
     for layer in "${LAYERS[@]}"; do
         case $layer in
             "opensearch") build_opensearch_layer ;;

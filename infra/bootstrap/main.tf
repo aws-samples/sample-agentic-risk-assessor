@@ -23,6 +23,17 @@ provider "aws" {
   }
 }
 
+# KMS key for S3 bucket encryption
+resource "aws_kms_key" "terraform_state" {
+  description             = "KMS key for Terraform state bucket encryption"
+  deletion_window_in_days = 7
+  enable_key_rotation     = true
+
+  tags = {
+    Name = "${var.project_name}-terraform-state-key"
+  }
+}
+
 # S3 bucket for Terraform state
 resource "aws_s3_bucket" "terraform_state" {
   bucket = var.terraform_state_bucket
