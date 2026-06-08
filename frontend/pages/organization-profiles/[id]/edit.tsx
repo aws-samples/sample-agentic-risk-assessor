@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import { validatePathParam } from '../../../utils/validatePathParam';
 import Sidebar from '../../../components/Sidebar';
 import ProfileEditor from '../../../components/ProfileEditor';
 import VoiceInteractiveProfileBuilder from '../../../components/VoiceInteractiveProfileBuilder';
@@ -48,7 +49,7 @@ export default function EditOrganizationProfile() {
       
       console.log('Fetching profile with ID:', profileId);
       
-      const response = await fetch(`/api/profiles/${profileId}`, {
+      const response = await fetch(`/api/profiles/${validatePathParam(profileId, 'profileId')}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
@@ -109,7 +110,7 @@ export default function EditOrganizationProfile() {
         throw new Error('Authentication required');
       }
       
-      const response = await fetch(`/api/organization-profiles/${id}`, {
+      const response = await fetch(`/api/organization-profiles/${validatePathParam(id as string, 'profileId')}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',

@@ -1636,7 +1636,8 @@ export default function DemoPageNew() {
                                       const token = await getJwtToken();
                                       const sessionId = chatTabs[tabNum]?.sessionId;
                                       
-                                      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/sessions/${sessionId}`, {
+                                      const { validatePathParam } = await import('../utils/validatePathParam');
+                                      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/sessions/${validatePathParam(sessionId, 'sessionId')}`, {
                                         method: 'DELETE',
                                         headers: {
                                           'Authorization': `Bearer ${token}`,

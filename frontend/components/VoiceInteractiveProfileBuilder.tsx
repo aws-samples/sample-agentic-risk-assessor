@@ -1096,7 +1096,9 @@ export default function VoiceInteractiveProfileBuilder({
       httpUrl = httpUrl.replace(/\/ws\/(chat|voice)$/, '');
       
       // Fetch audio via HTTP through organization profile agent
-      const audioUrl = `${httpUrl}/api/voice/audio/${audioId}`;
+      const { validatePathParam } = await import('../utils/validatePathParam');
+      const validAudioId = validatePathParam(audioId, 'audioId');
+      const audioUrl = `${httpUrl}/api/voice/audio/${validAudioId}`;
       console.log('[Voice] Fetching audio from:', audioUrl);
       
       // Add authorization header via fetch and create object URL

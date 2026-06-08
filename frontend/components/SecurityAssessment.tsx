@@ -65,7 +65,9 @@ const SecurityAssessment: React.FC<SecurityAssessmentProps> = ({ projectId }) =>
   const loadSecurityAssessment = async () => {
     try {
       setLoading(true);
-      const response = await api.get(`/api/projects/${projectId}/security-assessment`);
+      const { validatePathParam } = await import('../utils/validatePathParam');
+      const validId = validatePathParam(projectId, 'projectId');
+      const response = await api.get(`/api/projects/${validId}/security-assessment`);
       setAssessment(response.data.assessment);
       setError(null);
     } catch (err) {

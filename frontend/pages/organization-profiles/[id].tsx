@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { validatePathParam } from '../../utils/validatePathParam';
 import Sidebar from '../../components/Sidebar';
 import markdownStyles from '../../styles/markdownContent.module.css';
 
@@ -45,7 +46,7 @@ export default function OrganizationProfileDetail() {
         throw new Error('Authentication required');
       }
       
-      const response = await fetch(`/api/profiles/${profileId}`, {
+      const response = await fetch(`/api/profiles/${validatePathParam(profileId, 'profileId')}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
