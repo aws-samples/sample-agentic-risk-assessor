@@ -30,6 +30,12 @@ variable "lambda_kms_key_arn" {
   default     = ""
 }
 
+variable "environment" {
+  description = "Deployment environment"
+  type        = string
+  default     = "staging"
+}
+
 # Security Questions Table
 # nosemgrep: terraform.aws.security.aws-dynamodb-table-unencrypted.aws-dynamodb-table-unencrypted
 resource "aws_dynamodb_table" "security_questions" {
@@ -44,7 +50,7 @@ resource "aws_dynamodb_table" "security_questions" {
 
   tags = {
     Name = "RiskAgent Security Questions"
-    Environment = "production"
+    Environment = var.environment
   }
 }
 
@@ -62,7 +68,7 @@ resource "aws_dynamodb_table" "security_responses" {
 
   tags = {
     Name = "RiskAgent Security Responses"
-    Environment = "production"
+    Environment = var.environment
   }
 }
 
@@ -80,6 +86,6 @@ resource "aws_dynamodb_table" "security_assessments" {
 
   tags = {
     Name = "RiskAgent Security Assessments"
-    Environment = "production"
+    Environment = var.environment
   }
 }

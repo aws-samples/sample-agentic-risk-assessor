@@ -1,13 +1,21 @@
 import { NextApiRequest, NextApiResponse } from 'next';
+import { validatePathParam } from '../../../utils/validatePathParam';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method, query } = req;
-  const { id } = query;
+  const rawId = query.id;
 
-  if (!id || typeof id !== 'string') {
+  if (!rawId || typeof rawId !== 'string') {
     return res.status(400).json({ error: 'Profile ID is required' });
+  }
+
+  let id: string;
+  try {
+    id = validatePathParam(rawId, 'Profile ID');
+  } catch {
+    return res.status(400).json({ error: 'Invalid Profile ID format' });
   }
 
   // Get authorization token from request headers

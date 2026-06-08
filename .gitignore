@@ -133,6 +133,13 @@ dmypy.json
 *.tfstate.*
 .terraform/
 .terraform.lock.hcl
+*.tfvars.backup
+*.tfplan
+*tfplan*
+.terraformrc
+terraform.rc
+crash.log
+crash.*.log
 
 # AWS
 .aws/

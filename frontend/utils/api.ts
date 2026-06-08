@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Auth } from 'aws-amplify';
+import { validatePathParam } from './validatePathParam';
 
 export interface NodeControl {
   node_id: string;
@@ -93,7 +94,8 @@ export const uploadProjectDocument = async (projectId: string, file: File) => {
 // Get document metadata and download URL
 export const getProjectDocument = async (projectId: string) => {
   try {
-    const response = await api.get(`/api/projects/${projectId}/document`);
+    const validId = validatePathParam(projectId, 'projectId');
+    const response = await api.get(`/api/projects/${validId}/document`);
     return { data: response.data, error: null };
   } catch (error: any) {
     // If 404, it means no document exists - this is not an error
@@ -114,7 +116,8 @@ export const getProjectDocument = async (projectId: string) => {
 // Get document content through backend API to avoid CORS
 export const getProjectDocumentContent = async (projectId: string) => {
   try {
-    const response = await api.get(`/api/projects/${projectId}/document/content`);
+    const validId = validatePathParam(projectId, 'projectId');
+    const response = await api.get(`/api/projects/${validId}/document/content`);
     return { data: response.data, error: null };
   } catch (error: any) {
     console.error('Error fetching document content:', error);
@@ -207,11 +210,12 @@ export const getProjects = async () => {
 
 export const getProject = async (id: string) => {
   try {
-    const response = await api.get(`/api/projects/${id}`);
+    const validId = validatePathParam(id, 'projectId');
+    const response = await api.get(`/api/projects/${validId}`);
     return { data: response.data, error: null };
   } catch (error: any) {
     // nosemgrep
-    console.error(`Error fetching project ${id}:`, error);
+    console.error('Error fetching project:', id, error);
     return { 
       data: null, 
       error: { 
@@ -239,7 +243,8 @@ export const checkHealth = async () => {
 // Diagram Analysis API functions - Direct Lambda call
 export const analyzeDiagram = async (projectId: string, imageData: string) => {
   try {
-    const response = await api.post(`/api/projects/${projectId}/diagram-analysis`);
+    const validId = validatePathParam(projectId, 'projectId');
+    const response = await api.post(`/api/projects/${validId}/diagram-analysis`);
     return { data: response.data, error: null };
   } catch (error: any) {
     console.error('Error analyzing diagram:', error);
@@ -254,7 +259,8 @@ export const analyzeDiagram = async (projectId: string, imageData: string) => {
 
 export const getDiagramAnalysis = async (projectId: string) => {
   try {
-    const response = await api.get(`/api/projects/${projectId}/diagram-analysis`);
+    const validId = validatePathParam(projectId, 'projectId');
+    const response = await api.get(`/api/projects/${validId}/diagram-analysis`);
     return { data: response.data, error: null };
   } catch (error: any) {
     console.error('Error fetching diagram analysis:', error);
@@ -269,7 +275,8 @@ export const getDiagramAnalysis = async (projectId: string) => {
 
 export const updateDiagramAnalysis = async (projectId: string, analysisData: any) => {
   try {
-    const response = await api.put(`/api/projects/${projectId}/diagram-analysis`, analysisData);
+    const validId = validatePathParam(projectId, 'projectId');
+    const response = await api.put(`/api/projects/${validId}/diagram-analysis`, analysisData);
     return { data: response.data, error: null };
   } catch (error: any) {
     console.error('Error updating diagram analysis:', error);
@@ -284,7 +291,8 @@ export const updateDiagramAnalysis = async (projectId: string, analysisData: any
 
 export const updateProject = async (projectId: string, projectData: any) => {
   try {
-    const response = await api.put(`/api/projects/${projectId}`, projectData);
+    const validId = validatePathParam(projectId, 'projectId');
+    const response = await api.put(`/api/projects/${validId}`, projectData);
     return { data: response.data, error: null };
   } catch (error: any) {
     console.error('Error updating project:', error);
@@ -300,7 +308,8 @@ export const updateProject = async (projectId: string, projectData: any) => {
 // Admin API functions
 export const getServiceControls = async (framework: string) => {
   try {
-    const response = await api.get(`/admin/services?framework=${framework}`);
+    const validFramework = validatePathParam(framework, 'framework');
+    const response = await api.get(`/admin/services?framework=${validFramework}`);
     return { data: response.data.services, error: null };
   } catch (error: any) {
     console.error('Error fetching service controls:', error);
@@ -353,7 +362,8 @@ export const runServiceMapping = async (serviceName: string, framework: string) 
 
 export const getExecutionStatus = async (executionArn: string) => {
   try {
-    const response = await api.get(`/admin/execution-status/${executionArn}`);
+    const validArn = validatePathParam(executionArn, 'executionArn');
+    const response = await api.get(`/admin/execution-status/${validArn}`);
     return { data: response.data, error: null };
   } catch (error: any) {
     console.error('Error getting execution status:', error);
@@ -431,7 +441,8 @@ export const mapControls = async (projectId: string, nodes: any[], framework: st
 
 export const getNodeControls = async (projectId: string) => {
   try {
-    const response = await api.get(`/api/projects/${projectId}/node-controls`);
+    const validId = validatePathParam(projectId, 'projectId');
+    const response = await api.get(`/api/projects/${validId}/node-controls`);
     return { data: response.data, error: null };
   } catch (error: any) {
     console.error('Error fetching node controls:', error);
@@ -446,7 +457,9 @@ export const getNodeControls = async (projectId: string) => {
 
 export const getNodeDetails = async (projectId: string, nodeId: string) => {
   try {
-    const response = await api.get(`/api/projects/${projectId}/nodes/${nodeId}`);
+    const validProjectId = validatePathParam(projectId, 'projectId');
+    const validNodeId = validatePathParam(nodeId, 'nodeId');
+    const response = await api.get(`/api/projects/${validProjectId}/nodes/${validNodeId}`);
     return { data: response.data, error: null };
   } catch (error: any) {
     console.error('Error fetching node details:', error);
@@ -515,7 +528,8 @@ export const assessRisks = async (projectId: string) => {
 
 export const getWorkflowStatus = async (workflowId: string) => {
   try {
-    const response = await api.get(`/api/orchestrator/workflow-status/${workflowId}`);
+    const validId = validatePathParam(workflowId, 'workflowId');
+    const response = await api.get(`/api/orchestrator/workflow-status/${validId}`);
     return { data: response.data, error: null };
   } catch (error: any) {
     console.error('Error getting workflow status:', error);
@@ -536,7 +550,8 @@ if (!AGENTS_URL) {
 
 export const getProjectDetailsFromArchitect = async (projectId: string) => {
   try {
-    const response = await axios.get(`${AGENTS_URL}/architect/get_project_details?project_id=${projectId}`, {
+    const validId = validatePathParam(projectId, 'projectId');
+    const response = await axios.get(`${AGENTS_URL}/architect/get_project_details?project_id=${validId}`, {
       timeout: 300000
     });
     return { data: response.data, error: null };
@@ -569,8 +584,9 @@ export interface RiskAssessmentsResponse {
 
 export const saveRiskAssessment = async (projectId: string, assessmentContent: string) => {
   try {
-    const response = await api.post(`/api/projects/${projectId}/risk-assessments`, {
-      project_id: projectId,
+    const validId = validatePathParam(projectId, 'projectId');
+    const response = await api.post(`/api/projects/${validId}/risk-assessments`, {
+      project_id: validId,
       assessment_content: assessmentContent
     });
     return { data: response.data, error: null };
@@ -587,10 +603,11 @@ export const saveRiskAssessment = async (projectId: string, assessmentContent: s
 
 export const getRiskAssessments = async (projectId: string) => {
   try {
-    console.log('🚀 getRiskAssessments API call starting for project:', projectId);
-    console.log('🚀 API URL:', `${API_URL}/api/projects/${projectId}/risk-assessments`);
+    const validId = validatePathParam(projectId, 'projectId');
+    console.log('🚀 getRiskAssessments API call starting for project:', validId);
+    console.log('🚀 API URL:', `${API_URL}/api/projects/${validId}/risk-assessments`);
     
-    const response = await api.get(`/api/projects/${projectId}/risk-assessments`);
+    const response = await api.get(`/api/projects/${validId}/risk-assessments`);
     
     console.log('✅ getRiskAssessments API response status:', response.status);
     console.log('✅ getRiskAssessments API response data:', response.data);
@@ -613,7 +630,9 @@ export const getRiskAssessments = async (projectId: string) => {
 
 export const downloadRiskAssessment = async (projectId: string, assessmentId: string) => {
   try {
-    const response = await api.get(`/api/projects/${projectId}/risk-assessments/${assessmentId}`);
+    const validProjectId = validatePathParam(projectId, 'projectId');
+    const validAssessmentId = validatePathParam(assessmentId, 'assessmentId');
+    const response = await api.get(`/api/projects/${validProjectId}/risk-assessments/${validAssessmentId}`);
     return { data: response.data, error: null };
   } catch (error: any) {
     console.error('Error downloading risk assessment:', error);
