@@ -192,3 +192,4 @@ lambda/layers/*.zip
 *.disabled
 ~$*
 .ash/
+dependabot-alerts.json
