@@ -37,7 +37,7 @@ locals {
 
 # checkov:skip=CKV_AWS_21: S3 versioning not required for this application - data is regenerated and not critical for recovery
 # checkov:skip=CKV_AWS_18: S3 access logging not required for demo application - adds cost and complexity
-# Production deployment should enable access logging for audit compliance and security monitoring
+# A full deployment should enable access logging for audit compliance and security monitoring
 resource "aws_s3_bucket" "this" {
   for_each = local.s3_buckets
 

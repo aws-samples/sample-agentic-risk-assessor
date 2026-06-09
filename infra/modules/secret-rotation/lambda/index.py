@@ -6,7 +6,7 @@ def handler(event, context):
     """
     Minimal secret rotation handler for Secrets Manager.
     This is a placeholder that marks rotation as complete.
-    For production, implement actual rotation logic.
+    For a full deployment, implement actual rotation logic.
     """
     service_client = boto3.client('secretsmanager')
     

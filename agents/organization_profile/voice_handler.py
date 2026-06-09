@@ -945,7 +945,7 @@ class VoiceHandler:
         """Assess the quality of incoming audio data"""
         try:
             # Basic audio quality assessment
-            # In a production system, you might use more sophisticated audio analysis
+            # In a full deployment, you might use more sophisticated audio analysis
             
             data_length = len(audio_data)
             
@@ -1099,7 +1099,7 @@ class VoiceHandler:
                 self.transcribe_client.start_transcription_job(**transcribe_params)
                 
                 # Wait for transcription to complete (simplified approach)
-                # In production, you'd use webhooks or polling
+                # In a full deployment, you'd use webhooks or polling
                 await asyncio.sleep(5)  # Give it time to process
                 
                 try:
@@ -1390,7 +1390,7 @@ class VoiceHandler:
     
     def _optimize_audio_for_streaming(self, audio_data: bytes, format: str) -> bytes:
         """Optimize audio data for web streaming"""
-        # For now, return as-is. In production, you might:
+        # For now, return as-is. In a full deployment, you might:
         # - Compress audio further
         # - Normalize volume levels
         # - Add streaming-friendly headers
@@ -2157,7 +2157,7 @@ class VoiceHandler:
             if len(session['session_logs']) > max_logs:
                 session['session_logs'] = session['session_logs'][-max_logs:]
             
-            # Log to CloudWatch (in production, you'd use actual CloudWatch logging)
+            # Log to CloudWatch (in a full deployment, you'd use actual CloudWatch logging)
             logger.info(f"Voice session event - {event_type}: {json.dumps(log_entry)}")
             
         except Exception as e:

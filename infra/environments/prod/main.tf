@@ -58,7 +58,7 @@ locals {
     AWS_REGION   = var.region
   }
 
-  # Production-specific Lambda configurations
+  # Prod-specific Lambda configurations
   lambda_functions = {
     projects-api = {
       handler     = "projects.handler"

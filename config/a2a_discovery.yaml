@@ -1,7 +1,7 @@
 # A2A Agent Discovery Configuration
 # This file should be updated with account-specific URLs after deployment
 
-# Production URLs (from Terraform outputs)
+# Deployed environment URLs (from Terraform outputs)
 agents:
   architect:
     url: "${AGENTS_ALB_URL}/architect"

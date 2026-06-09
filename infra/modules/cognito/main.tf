@@ -219,7 +219,7 @@ resource "aws_cognito_user_pool_client" "auditor_client" {
 }
 
 # Store client credentials in Secrets Manager
-#checkov:skip=CKV2_AWS_57: Automatic rotation not required for demo application. Production deployment must enable rotation with Lambda function.
+#checkov:skip=CKV2_AWS_57: Automatic rotation not required for demo application. A full deployment must enable rotation with Lambda function.
 resource "aws_secretsmanager_secret" "orchestrator_client_secret" {
   name        = "risk-agent-orchestrator-client-secret"
   description = "OAuth client credentials for orchestrator agent"
@@ -235,7 +235,7 @@ resource "aws_secretsmanager_secret_version" "orchestrator_client_secret" {
   })
 }
 
-#checkov:skip=CKV2_AWS_57: Automatic rotation not required for demo application. Production deployment must enable rotation with Lambda function.
+#checkov:skip=CKV2_AWS_57: Automatic rotation not required for demo application. A full deployment must enable rotation with Lambda function.
 resource "aws_secretsmanager_secret" "architect_client_secret" {
   name        = "risk-agent-architect-client-secret"
   description = "OAuth client credentials for architect agent"
@@ -251,7 +251,7 @@ resource "aws_secretsmanager_secret_version" "architect_client_secret" {
   })
 }
 
-#checkov:skip=CKV2_AWS_57: Automatic rotation not required for demo application. Production deployment must enable rotation with Lambda function.
+#checkov:skip=CKV2_AWS_57: Automatic rotation not required for demo application. A full deployment must enable rotation with Lambda function.
 resource "aws_secretsmanager_secret" "security_architect_client_secret" {
   name        = "risk-agent-security_architect-client-secret"
   description = "OAuth client credentials for security architect agent"
@@ -267,7 +267,7 @@ resource "aws_secretsmanager_secret_version" "security_architect_client_secret" 
   })
 }
 
-#checkov:skip=CKV2_AWS_57: Automatic rotation not required for demo application. Production deployment must enable rotation with Lambda function.
+#checkov:skip=CKV2_AWS_57: Automatic rotation not required for demo application. A full deployment must enable rotation with Lambda function.
 resource "aws_secretsmanager_secret" "risk_assessment_client_secret" {
   name        = "risk-agent-risk_assessment-client-secret"
   description = "OAuth client credentials for risk assessment agent"
@@ -283,7 +283,7 @@ resource "aws_secretsmanager_secret_version" "risk_assessment_client_secret" {
   })
 }
 
-#checkov:skip=CKV2_AWS_57: Automatic rotation not required for demo application. Production deployment must enable rotation with Lambda function.
+#checkov:skip=CKV2_AWS_57: Automatic rotation not required for demo application. A full deployment must enable rotation with Lambda function.
 resource "aws_secretsmanager_secret" "auditor_client_secret" {
   name        = "risk-agent-auditor-client-secret"
   description = "OAuth client credentials for auditor agent"

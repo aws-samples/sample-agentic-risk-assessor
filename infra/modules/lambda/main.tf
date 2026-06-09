@@ -102,7 +102,7 @@ locals {
 # checkov:skip=CKV_AWS_116: Lambda DLQ not required for demo application - errors logged to CloudWatch
 # checkov:skip=CKV_AWS_117: Lambda VPC not required - functions access public AWS services only (DynamoDB, S3, Bedrock)
 # checkov:skip=CKV_AWS_272: Lambda code signing not required for internal demo application
-# Production deployment should enable: DLQ for error tracking, VPC for network isolation, code signing for integrity
+# A full deployment should enable: DLQ for error tracking, VPC for network isolation, code signing for integrity
 # nosemgrep: terraform.aws.security.aws-lambda-x-ray-tracing-not-active.aws-lambda-x-ray-tracing-not-active
 resource "aws_lambda_function" "this" {
   for_each = local.lambda_configs

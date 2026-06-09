@@ -123,7 +123,7 @@ resource "aws_route_table_association" "private" {
 
 # Application Load Balancer
 # checkov:skip=CKV2_AWS_61: ALB access logging not required for demo application - adds cost and storage complexity
-# Production deployment should enable access logs for security monitoring and compliance
+# A full deployment should enable access logs for security monitoring and compliance
 resource "aws_lb" "this" {
   for_each = var.load_balancers
 
@@ -312,7 +312,7 @@ resource "aws_security_group" "this" {
 }
 
 # checkov:skip=CKV2_AWS_61: ALB access logging not required for demo application - adds cost and storage complexity
-# Production deployment should enable access logs for security monitoring and compliance
+# A full deployment should enable access logs for security monitoring and compliance
 # Agents ALB (from backup configuration)
 # Internal Agents ALB (for agent-to-agent communication)
 resource "aws_lb" "agents_internal" {

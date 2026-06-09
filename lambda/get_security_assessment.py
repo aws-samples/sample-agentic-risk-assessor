@@ -11,7 +11,7 @@ def lambda_handler(event, context):
         s3_client = boto3.client('s3')
         
         table_name = os.environ.get('PROJECTS_TABLE', 'Projects')
-        bucket_name = os.environ.get('DOCUMENTS_BUCKET', 'risk-agent-project-documents-production')
+        bucket_name = os.environ.get('DOCUMENTS_BUCKET', 'risk-agent-project-documents')
         
         table = dynamodb.Table(table_name)
         response = table.get_item(Key={'id': project_id})

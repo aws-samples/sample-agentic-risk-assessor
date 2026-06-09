@@ -5,7 +5,7 @@
 
 /**
  * Get the appropriate WebSocket protocol based on the current page protocol
- * Always uses wss: (secure) for production safety
+ * Always uses wss: (secure) for safety
  * @returns 'wss:' for secure WebSocket connections
  */
 export function getWebSocketProtocol(): string {
