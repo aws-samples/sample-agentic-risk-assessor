@@ -115,7 +115,9 @@ ECR_REGISTRY="${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
 
 # Get S3 bucket name from Terraform output
 # Get S3 bucket name from Terraform output
-APP_DATA_BUCKET=$(cd infra/environments/staging && bash terraform-wrapper.sh output 2>/dev/null | grep 'app_data' | cut -d'=' -f2 | tr -d ' "')
+if [ -z "$APP_DATA_BUCKET" ]; then
+    APP_DATA_BUCKET=$(cd infra/environments/staging && AWS_PROFILE=$AWS_PROFILE bash terraform-wrapper.sh output 2>/dev/null | grep 'app_data' | cut -d'=' -f2 | tr -d ' "')
+fi
 
 # Validate that APP_DATA_BUCKET was successfully retrieved
 if [ -z "$APP_DATA_BUCKET" ]; then
