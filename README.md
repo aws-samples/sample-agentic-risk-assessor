@@ -68,6 +68,33 @@ Each agent mirrors a role in the financial services three lines of defense model
 - **Security**: Per-agent IAM roles, KMS encryption, WAF
 - **IaC**: Terraform (modular)
 
+### A2A Agent Discovery
+
+Agents discover and communicate with each other through the A2A protocol. Each agent exposes an agent card describing its capabilities and role within the three-lines-of-defense model:
+
+```yaml
+# Each agent exposes an agent card for A2A discovery
+agents:
+  architect:
+    description: "Analyzes architecture diagrams and categorizes AWS components"
+    skills: ["diagram_analysis", "component_identification", "architecture_review"]
+    defense_line: "1st Line (Technology)"
+  security_architect:
+    description: "Evaluates security posture and maps controls to frameworks"
+    skills: ["control_mapping", "gap_analysis", "security_assessment"]
+    defense_line: "1st Line (Information Security)"
+  risk_assessment:
+    description: "Quantifies risk and produces FSI risk assessments"
+    skills: ["risk_scoring", "scenario_generation", "regulatory_exposure"]
+    defense_line: "1st/2nd Line (Technology Risk)"
+  auditor:
+    description: "Validates assessment quality and traceability"
+    skills: ["count_validation", "completeness_check", "consistency_audit"]
+    defense_line: "3rd Line (Internal Audit)"
+```
+
+Each agent automatically initializes an A2A client tool provider at startup using these agent cards, enabling any agent to discover and communicate with any other agent.
+
 ## Getting Started — End-to-End Process
 
 To run a full risk assessment, follow this sequence:
@@ -160,6 +187,21 @@ Each agent can be interacted with directly via chat. Ask questions, request anal
 - Ask the **Architect** agent: "What are the single points of failure in this architecture?"
 - Ask the **Security Architect** agent: "Which controls are missing for the payment API?"
 - Ask the **Risk Assessment** agent: "What is the regulatory exposure for this project under DORA?"
+
+## Tunable Frameworks Across Jurisdictions
+
+The system can adapt to different regulatory jurisdictions through framework-specific system prompts and assessment templates. Each agent's prompt encodes the control mapping methodology for the applicable frameworks:
+
+- **CRI (Global)**: Basel Committee cyber resilience principles
+- **DORA (EU)**: Digital operational resilience requirements
+- **SOX/OCC (US)**: Financial reporting controls and heightened standards
+- **APRA CPS 234 (Australia)**: Information security requirements
+- **NIST CSF / NIST 800-53**: Control framework mappings
+- **PCI-DSS**: Payment card industry data security standards
+
+When the Security Architect Agent performs an assessment, it loads the appropriate prompt based on the framework selected for the assessment. Control mappings are grounded in authoritative source material through Amazon Bedrock Knowledge Bases, which index the full text of regulatory frameworks. The agent retrieves specific control requirements rather than relying solely on the foundation model's training data. The foundation model then applies that framework's control methodology to the architecture under review.
+
+The same agent produces CRI-aligned assessments for a global bank, DORA-aligned assessments for an EU subsidiary, and APRA-aligned assessments for an Australian entity, all by updating the prompt, without code changes or separate deployments. Institutions can also define custom frameworks that blend elements from multiple standards.
 
 ## Deployment
 
